@@ -1,15 +1,19 @@
+html {
+  font-size: 100%;
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
-  font-family: charter, helvetica, times, serif, sans-serif;
+  font-family: charter, georgia, times, serif; /* Browser will display the leftmost font available */
   background-color: lightgray;
 }
 
 h1 {
   text-align: center;
-  font-size: 1.75em;
+  font-size: 1.75rem; /* Font-size for main heading 75% of the body text */
 }
 
 section {
@@ -31,10 +35,10 @@ section>h2 {
   float: right;
   border-left: 1px solid black;
   border-bottom: 1px solid black;
-  padding: 5px 20px 5px 20px;
+  padding: 5px 25px 5px 25px;
   text-align: center;
   margin-top: 0;
-  font-size: 1.25em;
+  font-size: 1.25rem; /* Font-size for section headings 25% of the body text */
 }
 
 #ae>h2 {
@@ -206,3 +210,11 @@ section>h2 {
   }
 }
 
+a {
+  color: black;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
