@@ -1,0 +1,71 @@
+/* Using the twitter bootstrap CSS version 4.5.0 */
+
+html {
+	font-size: 100%;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	background-color: cornsilk;
+	font-family:  charter, georgia, times, serif;
+}
+
+#navbar-header {
+	background-color: khaki;
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.navbar-brand a {
+	color: darkgreen;
+	text-decoration: none;
+}
+
+.navbar-brand a:hover {
+	color: seagreen;
+}
+
+#navbar-header button.navbar-toggler {
+	border: 1px solid darkgreen;
+}
+
+#navbar-header button.navbar-toggler:hover {
+	background-color: lemonchiffon;
+}
+ 
+#nav-list .nav-item {
+	text-align: right;
+} 
+
+#nav-list span {
+	font-size: 1.3em;
+}
+
+#menu-title {
+	padding-top: 20px;
+	padding-bottom: 35px;
+	font-family: helvetica;
+	color: forestgreen;
+	text-shadow: 2px 2px 2px black;
+	text-transform: uppercase;
+	font-style: italic;
+}
+
+#chicken-content {
+	background-image: url('../images/menu_bg.jpg');
+	margin-bottom: 30px;
+	box-shadow: 3px 3px 30px, -3px -3px 30px;
+}
+
+
+#chicken-content .dummy-text {
+	padding: 20px 20px 20px 30px; 
+
+}
+
+#chicken-content .text-center {
+	padding-top: 20px;
+}
