@@ -36,9 +36,6 @@ body {
 	background-color: lemonchiffon;
 }
  
-#nav-list .nav-item {
-	text-align: right;
-} 
 
 #nav-list span {
 	font-size: 1.3em;
@@ -57,7 +54,7 @@ body {
 #chicken-content {
 	background-image: url('../images/menu_bg.jpg');
 	margin-bottom: 30px;
-	box-shadow: 3px 3px 30px, -3px -3px 30px;
+	box-shadow: 3px 3px 30px #808000, -3px -3px 30px #808000;
 }
 
 
