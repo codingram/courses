@@ -2,6 +2,7 @@
 
 html {
 	font-size: 100%;
+	
 }
 
 * {
@@ -13,10 +14,25 @@ body {
 	font-family:  charter, georgia, times, serif;
 }
 
+.container {
+	padding: 0;
+}
+
+.row {
+	width: 100%;
+	margin-right: auto;
+	margin-left: auto;
+}
+
 #navbar-header {
 	background-color: khaki;
 	padding-left: 0;
 	padding-right: 0;
+	padding-bottom: 0;
+}
+
+#navbar-header span {
+	padding-left: 15px;
 }
 
 .navbar-brand a {
@@ -30,7 +46,19 @@ body {
 
 #navbar-header button.navbar-toggler {
 	border: 1px solid darkgreen;
+	margin-right: 20px;
 }
+
+#nav-list a.nav-link {
+	background-color: darkgreen;
+	color: khaki;
+}
+
+#nav-list a.nav-link:hover {
+	background-color: lemonchiffon;
+	color: darkgreen;
+}
+
 
 #navbar-header button.navbar-toggler:hover {
 	background-color: lemonchiffon;
@@ -54,6 +82,8 @@ body {
 #chicken-content {
 	background-image: url('../images/menu_bg.jpg');
 	margin-bottom: 30px;
+	margin-left: 30px;
+	margin-right: 30px;
 	box-shadow: 3px 3px 30px #808000, -3px -3px 30px #808000;
 }
 
@@ -66,3 +96,4 @@ body {
 #chicken-content .text-center {
 	padding-top: 20px;
 }
+
