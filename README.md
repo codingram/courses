@@ -12,5 +12,7 @@
 * [Solution](https://dhruvmanila.github.io/course-assignments/module3-solution/index.html)
 
 ### Module 4
+* [Description](https://github.com/jhu-ep-coursera/fullstack-course4/blob/master/assignments/assignment4/Assignment-4.md) 
+* [Solution](https://dhruvmanila.github.io/course-assignments/module4-solution/index.html)
 
 ### Module 5
