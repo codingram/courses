@@ -218,3 +218,11 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+footer {
+  text-align: center;
+}
+
+footer>a{
+  margin-top: 2em;
+}

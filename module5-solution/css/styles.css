@@ -371,5 +371,9 @@ h3.menu-item-title {
   }
 }
 
+.back-link>a {
+  color: #557c3e;
+  font-size: 0.8em;
+}
 
 
