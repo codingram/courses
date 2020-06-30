@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Module 4 Assignment Solution </title>
   <script>
     var names = []; // DO NOT REMOVE
@@ -11,14 +12,17 @@
   <script src="script.js"></script>
   <style>
   	body {
+      font-family: charter, serif;
   		max-width: 40em;
   		margin-left: auto;
   		margin-right: auto;
-  		padding-left: 1em;
-  		padding-right: 1em;
   	}
   	h1 {
   		text-align: center;
+      color: white;
+      background-color: black;
+      padding: 5px;
+      margin: 0;
   	}
 	pre code {
 		font-size: 1.3em;
@@ -31,10 +35,17 @@
 	p {
 		font-size: 1.3em;
 	}
+  /********** Small devices only **********/
+  @media (max-width: 992px) {
+    body {
+      padding: 0px 15px 15px 15px;
+      word-break: break-word;
+    }
+  }
 	</style>
 </head>
 <body>
-  <h1>Module 4 Assignment Solution </h1><hr>
+  <h1>Module 4 Assignment Solution </h1>
   <p>To open Javascript console on Safari/Chrome, 
 press <pre><code>cmd/ctrl + option + c</code></pre></p><hr>
 <p>The final output on the console should look like this:</p>
