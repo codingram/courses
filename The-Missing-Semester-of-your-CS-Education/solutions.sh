@@ -47,7 +47,7 @@ echo "Test folder: ziptest"
 # Separate search results by NULL character (useful for xargs)
 # Convert stdout to arguments with NULL character as the delimiter
 # Create an archive of the files (arguments from xargs)
-fd . -t f -e html -0 | xargs -0 tar -cf zipped.tar
+fd -t f -e html -p ./ziptest/ -0 | xargs -0 tar -cf zipped.tar
 echo "List of files inside zipped.tar:"
 tar -tf zipped.tar
 
