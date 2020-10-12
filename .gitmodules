@@ -1,4 +1,4 @@
-[submodule "The-Missing-Semester-of-your-CS-Education/gitrepo"]
-	path = The-Missing-Semester-of-your-CS-Education/gitrepo
+[submodule "missing-semester/gitrepo"]
+	path = missing-semester/gitrepo
 	url = https://github.com/missing-semester/missing-semester
 	ignore = untracked
