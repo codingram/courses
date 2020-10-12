@@ -5,7 +5,7 @@
 ### The Missing Semester of Your CS Education (2020) - [Course Link](https://missing.csail.mit.edu/) | [Directory](./missing-semester/)
 
 ### How to Code: Simple Data - [Course Link](https://courses.edx.org/courses/course-v1:UBCx+HtC1x+2T2017/course/) | [Directory](./how-to-code-simple-data/)
-  - Design Quiz - [Directory](./how-to-code-simple-data/)
+  - Design Quiz - [Directory](./how-to-code-simple-data/design-quiz/)
   - Problem bank:
     - Beginner Student Language - [Directory](./how-to-code-simple-data/problem-bank/beginner-student-language/)
     - How to Design Functions - [Directory](./how-to-code-simple-data/problem-bank/how-to-design-functions/)
