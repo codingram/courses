@@ -245,7 +245,7 @@
                (rectangle CELL-WIDTH CELL-HEIGHT "outline" TEXT-COLOR)))
 
 ; Uncomment the below line to run the program
-(render-roster (cons P11
+#| (render-roster (cons P11
                      (cons P12
                            (cons P13
                                  (cons P14
@@ -256,4 +256,4 @@
                                                                (cons P23
                                                                      (cons P24
                                                                            (cons P25
-                                                                                 (cons P26 empty)))))))))))))
+                                                                                 (cons P26 empty))))))))))))) |#
