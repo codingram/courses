@@ -46,8 +46,8 @@
 ;  - one of: 2 cases
 ;  - atomic-distinct: false
 ;  - compound: (make-node Integer String BST BST)
-;  - self reference: (node-l t) has type BST
-;  - self reference: (node-r t) has type BST
+;  - self reference: (node-left t) has type BST
+;  - self reference: (node-right t) has type BST
 
 ; Functions:
 
