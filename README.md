@@ -2,8 +2,6 @@
 
 ***List of all the courses and their respective directories in this repository***
 
-### The Missing Semester of Your CS Education (2020) - [Course Link](https://missing.csail.mit.edu/) | [Directory](./missing-semester/)
-
 ### How to Code: Simple Data - [Course Link](https://courses.edx.org/courses/course-v1:UBCx+HtC1x+2T2017/course/) | [Directory](./how-to-code-simple-data/)
   - Design Quiz - [Directory](./how-to-code-simple-data/design-quiz/)
   - Problem bank:
@@ -16,6 +14,9 @@
     - Reference - [Directory](./how-to-code-simple-data/problem-bank/reference/)
     - Naturals - [Directory](./how-to-code-simple-data/problem-bank/naturals/)
     - Helpers - [Directory](./how-to-code-simple-data/problem-bank/helpers/)
+    - Binary Search Trees - [Directory](./how-to-code-simple-data/problem-bank/binary-search-trees/)
+
+### The Missing Semester of Your CS Education (2020) - [Course Link](https://missing.csail.mit.edu/) | [Directory](./missing-semester/)
 
 ### freeCodeCamp - [Course Link](https://www.freecodecamp.org) | [Directory](./freeCodeCamp/)
   - Responsive Web Design Projects
