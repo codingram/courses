@@ -5,17 +5,17 @@
 (require "images/cookies.rkt")
 
 
-;; ======================================================================
-;; Constants
-;; COOKIES (from images/cookies.rkt)
+; Constants
 
-;; ======================================================================
-;; Data Definitions
+; COOKIES (from images/cookies.rkt)
 
-;; Natural is one of:
-;;  - 0
-;;  - (add1 Natural)
-;; interp. a natural number
+
+; Data Definitions
+
+; Natural is one of:
+;  - 0
+;  - (add1 Natural)
+; interp. a natural number
 (define N0 0)         ;0
 (define N1 (add1 N0)) ;1
 (define N2 (add1 N1)) ;2
@@ -27,12 +27,11 @@
          (... n   ; n is added because it's often useful
               (fn-for-natural (sub1 n)))]))
 
-;; Template rules used:
-;;  - one-of: two cases
-;;  - atomic distinct: 0
-;;  - compound: 2 fields
-;;  - self-reference: (sub1 n) is Natural
-
+; Template rules used:
+;  - one-of: two cases
+;  - atomic distinct: 0
+;  - compound: 2 fields
+;  - self-reference: (sub1 n) is Natural
 
 
 
@@ -45,8 +44,8 @@
  | For instance, a 3-wide pyramid of cookies would look like this:
  | Run the program to look at the image |#
 
-;; Natural Image -> Image
-;; produce an n-wide pyramid of the given image
+; Natural Image -> Image
+; produce an n-wide pyramid of the given image
 (check-expect (pyramid 0 COOKIES) empty-image)
 (check-expect (pyramid 1 COOKIES) COOKIES)
 (check-expect (pyramid 3 COOKIES)
@@ -69,26 +68,26 @@
  |
  | To assist you, we supply the relevant data definitions. |#
 
-;; Blob is one of:
-;; - "solid"
-;; - "bubble"
-;; interp.  a gelatinous blob, either a solid or a bubble
-;; Examples are redundant for enumerations
+; Blob is one of:
+; - "solid"
+; - "bubble"
+; interp.  a gelatinous blob, either a solid or a bubble
+; Examples are redundant for enumerations
 #;
 (define (fn-for-blob b)
   (cond [(string=? b "solid") (...)]
         [(string=? b "bubble") (...)]))
 
-;; Template rules used:
-;; - one-of: 2 cases
-;; - atomic distinct: "solid"
-;; - atomic distinct: "bubble"
+; Template rules used:
+; - one-of: 2 cases
+; - atomic distinct: "solid"
+; - atomic distinct: "bubble"
 
 
-;; ListOfBlob is one of:
-;; - empty
-;; - (cons Blob ListOfBlob)
-;; interp. a sequence of blobs in a test tube, listed from top to bottom.
+; ListOfBlob is one of:
+; - empty
+; - (cons Blob ListOfBlob)
+; interp. a sequence of blobs in a test tube, listed from top to bottom.
 (define LOB0 empty) ; empty test tube
 (define LOB2 (cons "solid" (cons "bubble" empty))) ; solid blob above a bubble
 
@@ -99,15 +98,15 @@
          (... (fn-for-blob (first lob))
               (fn-for-lob (rest lob)))]))
 
-;; Template rules used
-;; - one-of: 2 cases
-;; - atomic distinct: empty
-;; - compound: 2 fields
-;; - reference: (first lob) is Blob
-;; - self-reference: (rest lob) is ListOfBlob
+; Template rules used
+; - one-of: 2 cases
+; - atomic distinct: empty
+; - compound: 2 fields
+; - reference: (first lob) is Blob
+; - self-reference: (rest lob) is ListOfBlob
 
-;; ListOfBlob -> ListOfBlob
-;; produce a list of blobs that sinks the given solid blobs by one
+; ListOfBlob -> ListOfBlob
+; produce a list of blobs that sinks the given solid blobs by one
 
 (check-expect (sink empty) empty)
 (check-expect (sink (cons "bubble" (cons "solid" (cons "bubble" empty))))

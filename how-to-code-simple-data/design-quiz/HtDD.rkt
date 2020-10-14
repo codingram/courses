@@ -25,16 +25,18 @@
 
 ; Age -> Boolean)
 ; Determines whether a given Age falls between 13 and 19
-(check-expect (teenager? 13) true)
-(check-expect (teenager? 19) true)
-(check-expect (teenager? 9) false)
-(check-expect (teenager? 37) false)
 
 ; (define (teenager? age) false)  ;stub
 
 (define (teenager? a)
   (and (>= a 13) (<= a 19)))
 
+; Tests
+
+(check-expect (teenager? 13) true)
+(check-expect (teenager? 19) true)
+(check-expect (teenager? 9) false)
+(check-expect (teenager? 37) false)
 
 
 #| Problem 2:
@@ -66,16 +68,18 @@
 
 ; Age -> MonthAge
 ; Converts the age of a person from years to months
-(check-expect (months-old 4) (* 12 4))
-(check-expect (months-old 24) (* 12 24))
-(check-expect (months-old 75) (* 12 75))
-(check-expect (months-old 0) (* 12 0))
 
 ; (define (months-old a) 0)  ;stub
 
 (define (months-old a)
   (* 12 a))
 
+; Tests
+
+(check-expect (months-old 4) (* 12 4))
+(check-expect (months-old 24) (* 12 24))
+(check-expect (months-old 75) (* 12 75))
+(check-expect (months-old 0) (* 12 0))
 
 
 #| Problem 4:
@@ -94,18 +98,35 @@
  | of the character if the character is not dead, otherwise the character
  | remains dead. |#
 
+; Data definitions
 
-; Health is Natural[0, 100]
+; Health is one of:
+; - false
+; - Natural
 ; interp. Natural represents the Health remaining
-;         - 0 means they are dead
-;         - 100 means full health
-(define H1 0)
-(define H2 14)
-(define H3 100)
+;         - false means they are dead
+;         - Natural represents their extra lives
+(define H1 false)
+(define H2 1)
+(define H3 12)
+#;
+(define (fn-for-health h)
+  (cond [(false? h) (... h)]
+        [else (... h)]))
 
-; Lives is Natural
-; interp. Natural represents the Lives remaining
-;         - 0 means no extra lives
-;         - Any number greater than 0 represents the extra lives
-(define L1 0)
-(define L2 3)
+
+; Function definitions
+
+; Health Natural -> Health
+; Add n additional lives to non-dead character
+
+(define (increase-health h n)
+  (cond [(false? h) false]
+        [else (+ h n)]))
+
+
+; Tests
+
+(check-expect (increase-health false 3) false)
+(check-expect (increase-health 0 1) 1)
+(check-expect (increase-health 3 2) 5)
