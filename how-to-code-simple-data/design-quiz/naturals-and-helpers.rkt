@@ -1,9 +1,7 @@
 #lang htdp/bsl
 
-
 (require 2htdp/image)
 (require "images/cookies.rkt")
-
 
 ; Constants
 
@@ -46,6 +44,26 @@
 
 ; Natural Image -> Image
 ; produce an n-wide pyramid of the given image
+
+(define (pyramid num img)
+  (cond [(zero? num) empty-image]
+        [else
+         (above
+           (pyramid (sub1 num) img)
+           (row-images num img))]))
+
+; Natural Image -> Image
+; Produces n images in a row
+
+(define (row-images num img)
+  (cond [(zero? num) empty-image]
+        [else
+         (beside img
+                 (row-images (sub1 num) img))]))
+
+
+; Tests
+
 (check-expect (pyramid 0 COOKIES) empty-image)
 (check-expect (pyramid 1 COOKIES) COOKIES)
 (check-expect (pyramid 3 COOKIES)
@@ -53,8 +71,9 @@
                      (beside COOKIES COOKIES)
                      (beside COOKIES COOKIES COOKIES)))
 
-(define (pyramid n i) empty-image) ; stub
-
+(check-expect (row-images 0 COOKIES) empty-image)
+(check-expect (row-images 1 COOKIES) COOKIES)
+(check-expect (row-images 2 COOKIES) (beside COOKIES COOKIES))
 
 
 #| Problem 2:
@@ -88,8 +107,6 @@
 ; - empty
 ; - (cons Blob ListOfBlob)
 ; interp. a sequence of blobs in a test tube, listed from top to bottom.
-(define LOB0 empty) ; empty test tube
-(define LOB2 (cons "solid" (cons "bubble" empty))) ; solid blob above a bubble
 
 #;
 (define (fn-for-lob lob)
@@ -108,20 +125,63 @@
 ; ListOfBlob -> ListOfBlob
 ; produce a list of blobs that sinks the given solid blobs by one
 
-(check-expect (sink empty) empty)
-(check-expect (sink (cons "bubble" (cons "solid" (cons "bubble" empty))))
-              (cons "bubble" (cons "bubble" (cons "solid" empty))))
-(check-expect (sink (cons "solid" (cons "solid" (cons "bubble" empty))))
-              (cons "bubble" (cons "solid" (cons "solid" empty))))
-(check-expect (sink (cons "solid" (cons "bubble" (cons "bubble" empty))))
-              (cons "bubble" (cons "solid" (cons "bubble" empty))))
-(check-expect (sink (cons "solid" (cons "bubble" (cons "solid" empty))))
-              (cons "bubble" (cons "solid" (cons "solid" empty))))
-(check-expect (sink (cons "bubble" (cons "solid" (cons "solid" empty))))
-              (cons "bubble" (cons "solid" (cons "solid" empty))))
-(check-expect (sink (cons "solid"
-                          (cons "solid"
-                                (cons "bubble" (cons "bubble" empty)))))
-              (cons "bubble" (cons "solid"
-                                   (cons "solid" (cons "bubble" empty)))))
-(define (sink lob) empty) ; stub
+(define (sink lob)
+  (cond [(empty? lob) empty]
+        [else
+         (sink-one (first lob)
+              (sink (rest lob)))]))
+
+; Blob ListOfBlob -> ListOfBlob
+; Sink one blob in the list of blobs
+; Assumption: ListOfBlob is already sinked (all solids are at the end)
+
+(define (sink-one b lob)
+  (cond [(empty? lob) (cons b empty)]
+        [else
+         (if (blob-solid? b)
+           (cons (first lob) (cons b (rest lob)))
+           (cons b lob))]))
+
+; Blob -> Boolean
+; Produces true if the blob is solid
+
+(define (blob-solid? b)
+  (string=? b "solid"))
+
+; Tests
+
+(define B "bubble")
+(define S "solid")
+
+(define LOB0 empty)
+(define LOB1 (cons B (cons S (cons B empty))))
+(define LOB2 (cons S (cons S (cons B empty))))
+(define LOB3 (cons S (cons B (cons B empty))))
+(define LOB4 (cons S (cons B (cons S empty))))
+(define LOB5 (cons B (cons S (cons S empty))))
+(define LOB6 (cons S (cons S (cons B (cons B empty)))))
+(define LOB7 (cons S (cons B (cons S (cons B (cons S (cons B empty)))))))
+
+(check-expect (blob-solid? B) false)
+(check-expect (blob-solid? S) true)
+
+(check-expect (sink-one B LOB0) (cons B empty))
+(check-expect (sink-one S LOB0) (cons S empty))
+(check-expect (sink-one B LOB5) (cons B (cons B (cons S (cons S empty)))))
+(check-expect (sink-one S LOB5) (cons B (cons S (cons S (cons S empty)))))
+
+(check-expect (sink LOB0) empty)
+(check-expect (sink LOB1)
+              (cons B (cons B (cons S empty))))
+(check-expect (sink LOB2)
+              (cons B (cons S (cons S empty))))
+(check-expect (sink LOB3)
+              (cons B (cons S (cons B empty))))
+(check-expect (sink LOB4)
+              (cons B (cons S (cons S empty))))
+(check-expect (sink LOB5)
+              (cons B (cons S (cons S empty))))
+(check-expect (sink LOB6)
+              (cons B (cons S (cons S (cons B empty)))))
+(check-expect (sink LOB7)
+              (cons B (cons S (cons B (cons S (cons B (cons S empty)))))))
