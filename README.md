@@ -15,6 +15,7 @@
     - Naturals - [Directory](./how-to-code-simple-data/problem-bank/naturals/)
     - Helpers - [Directory](./how-to-code-simple-data/problem-bank/helpers/)
     - Binary Search Trees - [Directory](./how-to-code-simple-data/problem-bank/binary-search-trees/)
+  - Final Project - [Space Invaders](./how-to-code-simple-data/space-invaders.rkt)
 
 ### The Missing Semester of Your CS Education (2020) - [Course Link](https://missing.csail.mit.edu/) | [Directory](./missing-semester/)
 
