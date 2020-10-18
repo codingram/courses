@@ -15,7 +15,8 @@
 (define MISSILE-SPEED 10)
 (define HIT-RANGE 10)
 (define INVADE-RATE 100)
-(define BACKGROUND (empty-scene WIDTH HEIGHT))
+(define BG-COLOR "white")
+(define BACKGROUND (empty-scene WIDTH HEIGHT BG-COLOR))
 (define INVADER
   (overlay/xy (ellipse 10 15 "outline" "blue")              ;cockpit cover
               -5 6
