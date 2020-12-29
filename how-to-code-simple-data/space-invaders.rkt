@@ -39,17 +39,22 @@
            (rectangle 20 10 "solid" "black"))))   ; main body
 
 (define MISSILE (ellipse 5 15 "solid" "red"))
+
+; Some necessary information about the images to be used throughout the program
 (define MISSILE-HEIGHT (image-height MISSILE))
 
-; TODO What is the use of this constant?
-(define TANK-HEIGHT/2 (/ (image-height TANK) 2))
-
-; Y coordinate and the width of the tank which is going to be constant
 (define TANK-Y (- HEIGHT (/ (image-height TANK) 2)))
 (define TANK-WIDTH (image-width TANK))
 
 (define INVADER-WIDTH (image-width INVADER))
 (define INVADER-HEIGHT (image-height INVADER))
+
+; When an invader pops extremely close to the edges, it goes into the infinite
+; loop of forever changing the direction and not moving forward resulting into
+; them being stuck in the corners. This will be the max value for the random
+; function and we will add half of INVADER-WIDTH to it in case the random number
+; generated is close to the left edge.
+(define WIDTH-MAX (- WIDTH INVADER-WIDTH))
 
 ; ====================================================
 ; Data Definitions:
@@ -122,22 +127,27 @@
 ; GameState -> GameState
 ; Produces the next state of the game by producing/advancing invaders and/or missile
 ; and/or tank
+; As this is a random function, there are no tests for it.
 
 (define (next-state game-state)
   (cond [(< (random INVADE-RATE) 2)
          (make-game-state
            (append (next-invaders (game-state-invaders game-state)
                                   (game-state-missiles game-state))
-                   (list (make-invader (random WIDTH) 0 INVADER-X-SPEED)))
+                   (list (make-invader
+                           (+ (random WIDTH-MAX) (/ INVADER-WIDTH 2))
+                           0 INVADER-X-SPEED)))
            (next-missiles (game-state-missiles game-state)
                           (game-state-invaders game-state))
            (next-tank (game-state-tank game-state)))]
         [else
-          (make-game-state (next-invaders (game-state-invaders game-state)
-                                          (game-state-missiles game-state))
-                           (next-missiles (game-state-missiles game-state)
-                                          (game-state-invaders game-state))
-                           (next-tank (game-state-tank game-state)))]))
+          (make-game-state
+            (next-invaders (game-state-invaders game-state)
+                           (game-state-missiles game-state))
+            (next-missiles (game-state-missiles game-state)
+                           (game-state-invaders game-state))
+            (next-tank (game-state-tank game-state)))]))
+
 
 ; ListOfInvaders ListOfMissiles -> ListOfInvaders
 ; Move all the invaders with the provided X and Y speed and remove the ones which got
@@ -155,8 +165,8 @@
         [(is-invader-hit? (first list-of-invaders) list-of-missiles)
          (filter-invaders (rest list-of-invaders) list-of-missiles)]
         [else
-          (append (filter-invaders (rest list-of-invaders) list-of-missiles)
-                  (list (first list-of-invaders)))]))
+          (append (list (first list-of-invaders))
+                  (filter-invaders (rest list-of-invaders) list-of-missiles))]))
 
 
 ; Invader ListOfMissiles -> Boolean
@@ -188,8 +198,8 @@
 (define (move-invaders list-of-invaders)
   (cond [(empty? list-of-invaders) empty]
         [else
-          (append (move-invaders (rest list-of-invaders))
-                  (list (move-single-invader (first list-of-invaders))))]))
+          (append (list (move-single-invader (first list-of-invaders)))
+                  (move-invaders (rest list-of-invaders)))]))
 
 
 ; Invader -> Invader
@@ -234,8 +244,8 @@
         [(is-missile-hit? (first list-of-missiles) list-of-invaders)
          (filter-hit-missiles (rest list-of-missiles) list-of-invaders)]
         [else
-          (append (filter-hit-missiles (rest list-of-missiles) list-of-invaders)
-                  (list (first list-of-missiles)))]))
+          (append (list (first list-of-missiles))
+                  (filter-hit-missiles (rest list-of-missiles) list-of-invaders))]))
 
 
 ; ListOfMissiles -> ListOfMissiles
@@ -246,8 +256,8 @@
         [(is-missile-outside? (first list-of-missiles))
          (filter-outside-missiles (rest list-of-missiles))]
         [else
-          (append (filter-outside-missiles (rest list-of-missiles))
-                  (list (first list-of-missiles)))]))
+          (append (list (first list-of-missiles))
+                  (filter-outside-missiles (rest list-of-missiles)))]))
 
 
 ; Missile -> Boolean
@@ -289,8 +299,9 @@
 (define (move-missiles list-of-missiles)
   (cond [(empty? list-of-missiles) empty]
         [else
-          (append (move-missiles (rest list-of-missiles))
-                  (list (move-single-missile (first list-of-missiles))))]))
+          (append
+            (list (move-single-missile (first list-of-missiles)))
+            (move-missiles (rest list-of-missiles)))]))
 
 
 ; Missile -> Missile
@@ -388,29 +399,32 @@
 ; Handle a specific key event where the spacebar was pressed.
 
 (define (handle-key-space game-state)
-  (make-game-state (game-state-invaders game-state)
-                   (append (game-state-missiles game-state)
-                           (list (make-missile
-                                   (tank-x (game-state-tank game-state)) TANK-Y)))
-                   (game-state-tank game-state)))
+  (make-game-state
+    (game-state-invaders game-state)
+    (append (game-state-missiles game-state)
+            (list (make-missile
+                  (tank-x (game-state-tank game-state)) TANK-Y)))
+    (game-state-tank game-state)))
 
 
 ; GameState -> GameState
 ; Handle a specific key event where the right arrow key was pressed.
 
 (define (handle-key-right game-state)
-  (make-game-state (game-state-invaders game-state)
-                   (game-state-missiles game-state)
-                   (make-tank (tank-x (game-state-tank game-state)) 1)))
+  (make-game-state
+    (game-state-invaders game-state)
+    (game-state-missiles game-state)
+    (make-tank (tank-x (game-state-tank game-state)) 1)))
 
 
 ; GameState -> GameState
 ; Handle a specific key event where the left arrow key was pressed.
 
 (define (handle-key-left game-state)
-  (make-game-state (game-state-invaders game-state)
-                   (game-state-missiles game-state)
-                   (make-tank (tank-x (game-state-tank game-state)) -1)))
+  (make-game-state
+    (game-state-invaders game-state)
+    (game-state-missiles game-state)
+    (make-tank (tank-x (game-state-tank game-state)) -1)))
 
 
 ; ====================================================
@@ -449,37 +463,167 @@
 ; ====================================================
 ; Tests
 
-(define T0 (make-tank (/ WIDTH 2) 0))   ; center staying where it is
-(define T1 (make-tank (/ WIDTH 2) 1))   ; center going right
-(define T2 (make-tank 50 1))            ; going right
-(define T3 (make-tank 50 -1))           ; going left
+; Center staying where it is (initial state of the tank)
+(define T0 (make-tank (/ WIDTH 2) 0))
+(define T1 (make-tank 50 1))                           ; going right
+(define T2 (make-tank 50 -1))                          ; going left
+(define T3 (make-tank (- WIDTH (/ TANK-WIDTH 2)) 1))   ; on the right edge, going right
+(define T4 (make-tank (/ TANK-WIDTH 2) -1))            ; on the left edge, going left
 
-(define I1 (make-invader 150 100 12))           ;not landed, moving right
-(define I2 (make-invader 150 HEIGHT -10))       ;exactly landed, moving left
-(define I3 (make-invader 150 (+ HEIGHT 10) 10)) ;> landed, moving right
+(define I0 (make-invader 250 100 -10))                     ; not landed, moving left
+(define I1 (make-invader 150 100 10))                      ; not landed, moving right
+(define I2 (make-invader 150 (- HEIGHT (/ INVADER-HEIGHT 2)) -10))  ; exactly landed, moving left
+(define I3 (make-invader 150 (+ (- HEIGHT (/ INVADER-HEIGHT 2)) 10) 10)) ; > landed, moving right
+(define I4 (make-invader (- WIDTH (/ INVADER-WIDTH 2)) 100 10))  ; on the right edge, moving right
+(define I5 (make-invader (/ INVADER-WIDTH 2) 100 -10))           ; on the left edge, moving left
 
-(define M1 (make-missile 150 300))                       ;not hit U1
-(define M2 (make-missile (invader-x I1) (+ (invader-y I1) 10)))  ;exactly hit U1
-(define M3 (make-missile (invader-x I1) (+ (invader-y I1)  5)))  ;> hit U1
+(define M1 (make-missile (invader-x I1) 300))             ; missile is in range for x-axis
+(define M2 (make-missile 200 (invader-y I1)))             ; missile is in range for y-axis
+(define M3 (make-missile (invader-x I1) (invader-y I1)))  ; missile is in range for x and y axis
+(define M4 (make-missile 100 (- (/ MISSILE-HEIGHT 2))))   ; missile is outside the BACKGROUND
 
 ; GameState where the tank is still
 (define GS0 (make-game-state empty empty T0))
 ; GameState where the tank is moving in the right direction
 (define GS1 (make-game-state empty empty T1))
+; I1 made the touchdown, so the game is over
 (define GS2 (make-game-state (list I1) (list M1) T1))
 ; GameState where the tank is moving in the left direction
-(define GS3 (make-game-state (list I1 I2) (list M1 M2) T1))
+(define GS3 (make-game-state (list I2 I1) (list M1 M2) T2))
+; GameState where the next tank made the touchdown
+(define GS4 (make-game-state (list I0 I1 I3) (list M1 M2) T1))
 
+; Test whether the given invader hits the missile
+(check-expect (invader-hit-missile? I0 M3) false)
+(check-expect (invader-hit-missile? I1 M3) true)
 
-; Test the function which will dispatch the game state to the appropriate key
-; handle functions. We have already checked the individual key handling functions
-; and so we will use that to check whether the appropriate function is being called
-; as per the key event.
+; Test the function which determines whether the invader hits any one of the missiles
+(check-expect (is-invader-hit? I0 empty) false)
+(check-expect (is-invader-hit? I1 (list M1 M2)) false)
+(check-expect (is-invader-hit? I1 (list M2 M3)) true)
 
-(check-expect (handle-key GS0 " ") (handle-key-space GS0))
-(check-expect (handle-key GS0 "r") GS0)
-(check-expect (handle-key GS1 "left") (handle-key-left GS1))
-(check-expect (handle-key GS3 "right") (handle-key-right GS3))
+; Test the function which filters out the invaders which got hit by any one of the missiles
+(check-expect (filter-invaders empty (list M1 M2)) empty)
+(check-expect (filter-invaders (list I1 I2) (list M3 M2)) (list I2))
+(check-expect (filter-invaders (list I3 I2 I1) (list M2 M3)) (list I3 I2))
+(check-expect (filter-invaders (list I1 I2) (list M1 M2)) (list I1 I2))
+
+; Test the function which moves a single invader
+(check-expect (move-single-invader I0)
+              (make-invader (+ (invader-x I0) (invader-dx I0))
+                            (+ (invader-y I0) INVADER-Y-SPEED)
+                            (invader-dx I0)))
+(check-expect (move-single-invader I4)
+              (make-invader (invader-x I4) (invader-y I4) (- (invader-dx I4))))
+(check-expect (move-single-invader I5)
+              (make-invader (invader-x I5) (invader-y I5) (- (invader-dx I5))))
+
+; Test the function which moves all the invaders
+(check-expect (move-invaders empty) empty)
+(check-expect (move-invaders (list I1 I2))
+                             (list (move-single-invader I1) (move-single-invader I2)))
+
+; Test the function which filters out the hit invaders and moves the rest
+(check-expect (next-invaders (list I2 I1) (list M2 M3))
+              (list (move-single-invader I2)))
+
+; Test the function which determines whether the missile is outside the BACKGROUND
+(check-expect (is-missile-outside? M1) false)
+(check-expect (is-missile-outside? M4) true)
+
+; Test the function which filters out the missiles outside the BACKGROUND
+(check-expect (filter-outside-missiles empty) empty)
+(check-expect (filter-outside-missiles (list M4 M1)) (list M1))
+(check-expect (filter-outside-missiles (list M1 M2 M4)) (list M1 M2))
+(check-expect (filter-outside-missiles (list M1 M4 M2 M4)) (list M1 M2))
+(check-expect (filter-outside-missiles (list M1 M2 M3)) (list M1 M2 M3))
+
+; Test the function which determines whether the missile hits the given invader
+(check-expect (missile-hit-invader? M1 I1) false)
+(check-expect (missile-hit-invader? M2 I1) false)
+(check-expect (missile-hit-invader? M3 I1) true)
+
+; Test the function which will determine if the given missile hit any one of the invaders
+(check-expect (is-missile-hit? M1 empty) false)
+(check-expect (is-missile-hit? M3 (list I1 I2)) true)
+(check-expect (is-missile-hit? M3 (list I2 I1)) true)
+(check-expect (is-missile-hit? M2 (list I1 I2)) false)
+
+; Test the function which filters out all the missiles which hit any one of the invaders
+(check-expect (filter-hit-missiles empty (list I1 I2)) empty)
+(check-expect (filter-hit-missiles (list M3 M1) (list I1 I2)) (list M1))
+(check-expect (filter-hit-missiles (list M1 M2 M3) (list I2 I1)) (list M1 M2))
+(check-expect (filter-hit-missiles (list M1 M3) (list I2 I3)) (list M1 M3))
+
+; Test the function which filters missiles outside BACKGROUND and which hit any one
+; of the invaders. This function only delegates the tasks to the helper functions
+; which have already been tested, so the only case remaining is the mixed one.
+(check-expect (filter-missiles (list M1 M2 M4 M3) (list I1 I2)) (list M1 M2))
+
+; Test the function which will move a single missile
+(check-expect (move-single-missile M1)
+              (make-missile (missile-x M1) (- (missile-y M1) MISSILE-SPEED)))
+
+; Test the function which moves all the missiles
+(check-expect (move-missiles empty) empty)
+(check-expect (move-missiles (list M1 M2))
+              (list (move-single-missile M1) (move-single-missile M2)))
+
+; Test the function which filters out the missiles and moves the remaining ones
+(check-expect (next-missiles (list M2 M1 M4 M3) (list I2 I1))
+              (list (move-single-missile M2) (move-single-missile M1)))
+
+; Test the function which produces the next state of the tank
+(check-expect (next-tank T0) T0)
+(check-expect (next-tank T1) (make-tank (+ 50 TANK-SPEED) 1))
+(check-expect (next-tank T2) (make-tank (- 50 TANK-SPEED) -1))
+(check-expect (next-tank T3) (make-tank (tank-x T3) -1))
+(check-expect (next-tank T4) (make-tank (tank-x T4) 1))
+
+; Test the function which renders the tank
+(check-expect (render-tank T0 BACKGROUND)
+              (place-image TANK (tank-x T0) TANK-Y BACKGROUND))
+
+; Test the function which renders the missiles
+(check-expect (render-missiles empty BACKGROUND) BACKGROUND)
+(check-expect (render-missiles (list M1 M2) BACKGROUND)
+              (place-image
+                MISSILE
+                (missile-x M1) (missile-y M1)
+                (place-image
+                  MISSILE
+                  (missile-x M2) (missile-y M2)
+                  BACKGROUND)))
+
+; Test the function which renders the invaders
+(check-expect (render-invaders empty BACKGROUND) BACKGROUND)
+(check-expect (render-invaders (list I0 I1) BACKGROUND)
+              (place-image
+                INVADER
+                (invader-x I0) (invader-y I0)
+                (place-image
+                  INVADER
+                  (invader-x I1) (invader-y I1)
+                  BACKGROUND)))
+
+; Test the function which renders the entire game state. As we have already tested the
+; functions rendering each individual parts, we can use those functions here.
+
+(check-expect (render-state GS0)
+              (render-invaders
+                (game-state-invaders GS0)
+                (render-missiles
+                  (game-state-missiles GS0)
+                  (render-tank
+                    (game-state-tank GS0) BACKGROUND))))
+
+(check-expect (render-state GS2)
+              (render-invaders
+                (game-state-invaders GS2)
+                (render-missiles
+                  (game-state-missiles GS2)
+                  (render-tank
+                    (game-state-tank GS2) BACKGROUND))))
 
 ; Test the function which handles the space bar key pressed.
 (check-expect (handle-key-space GS0)
@@ -530,8 +674,33 @@
                                (game-state-missiles GS3)
                                (make-tank (tank-x (game-state-tank GS3)) 1)))
 
+; Test the function which will dispatch the game state to the appropriate key
+; handle functions. We have already checked the individual key handling functions
+; and so we will use that to check whether the appropriate function is being called
+; as per the key event.
+
+(check-expect (handle-key GS0 " ") (handle-key-space GS0))
+(check-expect (handle-key GS0 "r") GS0)
+(check-expect (handle-key GS1 "left") (handle-key-left GS1))
+(check-expect (handle-key GS3 "right") (handle-key-right GS3))
+
+; Test the function which determines whether the invader made a touchdown on our base
+(check-expect (invader-touchdown? I1) false)
+(check-expect (invader-touchdown? I2) true)
+(check-expect (invader-touchdown? I3) true)
+
+; Test the function which determines whether game is over or not
+(check-expect (game-over? GS0) false)
+(check-expect (game-over? GS2) false)
+(check-expect (game-over? GS3) true)
+(check-expect (game-over? GS4) true)
+
+; Test the function which renders the final image when the game is over
+(check-expect (last-image GS4)
+              (place-image
+                (text "GAME OVER!" 24 "black")
+                (/ WIDTH 2) (/ HEIGHT 2)
+                (render-state GS4)))
 
 ; Uncomment the below line to start the game!
-; Initial state of the game as used in the main function.
-(define INITIAL-GAME-STATE (make-game-state empty empty (make-tank (/ WIDTH 2) 0)))
-(main INITIAL-GAME-STATE)
+(main GS0)
