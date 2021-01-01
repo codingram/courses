@@ -1,14 +1,14 @@
 #lang htdp/bsl
 
-; HtDD Design Quiz
+;; HtDD Design Quiz
 
-; Age is Natural
-; interp. the age of a person in years
+;; Age is Natural
+;; interp. the age of a person in years
 (define A0 18)
 (define A1 25)
 
-; Template rules used
-; - atomic-non-distinct: Natural
+;; Template rules used
+;; - atomic-non-distinct: Natural
 
 #;
 (define (fn-for-age a)
@@ -23,15 +23,15 @@
  | of a particular age is a teenager (i.e., between the ages of 13 and 19). |#
 
 
-; Age -> Boolean)
-; Determines whether a given Age falls between 13 and 19
+;; Age -> Boolean)
+;; Determines whether a given Age falls between 13 and 19
 
-; (define (teenager? age) false)  ;stub
+;; (define (teenager? age) false)  ;stub
 
 (define (teenager? a)
   (and (>= a 13) (<= a 19)))
 
-; Tests
+;; Tests
 
 (check-expect (teenager? 13) true)
 (check-expect (teenager? 19) true)
@@ -45,14 +45,14 @@
  | in months. |#
 
 
-; MonthAge is Natural
-; interp. represents a person's age in months
+;; MonthAge is Natural
+;; interp. represents a person's age in months
 (define MA1 45)
 (define MA2 145)
 (define MA3 672)
 
-; Template rules used:
-; - atomic-non-distinct: Natural
+;; Template rules used:
+;; - atomic-non-distinct: Natural
 
 #;
 (define (fn-for-month-age ma)
@@ -66,15 +66,15 @@
  | and yields that person's age in months. |#
 
 
-; Age -> MonthAge
-; Converts the age of a person from years to months
+;; Age -> MonthAge
+;; Converts the age of a person from years to months
 
-; (define (months-old a) 0)  ;stub
+;; (define (months-old a) 0)  ;stub
 
 (define (months-old a)
   (* 12 a))
 
-; Tests
+;; Tests
 
 (check-expect (months-old 4) (* 12 4))
 (check-expect (months-old 24) (* 12 24))
@@ -98,14 +98,14 @@
  | of the character if the character is not dead, otherwise the character
  | remains dead. |#
 
-; Data definitions
+;; Data definitions
 
-; Health is one of:
-; - false
-; - Natural
-; interp. Natural represents the Health remaining
-;         - false means they are dead
-;         - Natural represents their extra lives
+;; Health is one of:
+;; - false
+;; - Natural
+;; interp. Natural represents the Health remaining
+;;         - false means they are dead
+;;         - Natural represents their extra lives
 (define H1 false)
 (define H2 1)
 (define H3 12)
@@ -115,17 +115,17 @@
         [else (... h)]))
 
 
-; Function definitions
+;; Function definitions
 
-; Health Natural -> Health
-; Add n additional lives to non-dead character
+;; Health Natural -> Health
+;; Add n additional lives to non-dead character
 
 (define (increase-health h n)
   (cond [(false? h) false]
         [else (+ h n)]))
 
 
-; Tests
+;; Tests
 
 (check-expect (increase-health false 3) false)
 (check-expect (increase-health 0 1) 1)

@@ -15,12 +15,12 @@
 (require 2htdp/image)
 
 
-; Data definition
+;; Data definition
 
-; ListOfImage is one of:
-; - empty
-; - (cons Image ListOfImage)
-; interp. a list of images
+;; ListOfImage is one of:
+;; - empty
+;; - (cons Image ListOfImage)
+;; interp. a list of images
 #;
 (define (fn-for-loi loi)
   (cond [(empty? loi) (...)]
@@ -29,16 +29,16 @@
                (fn-for-loi (rest loi)))]))
 
 
-; Function definition
+;; Function definition
 
-; ListOfImage -> Image
-; Produces all the images from left-to-right in increasing order of size
+;; ListOfImage -> Image
+;; Produces all the images from left-to-right in increasing order of size
 
 (define (arrange-images loi)
   (layout-images (sort-images loi)))
 
-; ListOfImage -> ListOfImage
-; Produces a list of sorted images in increasing order of their area
+;; ListOfImage -> ListOfImage
+;; Produces a list of sorted images in increasing order of their area
 
 (define (sort-images loi)
   (cond [(empty? loi) empty]
@@ -46,10 +46,10 @@
           (insert-image (first loi)
                         (sort-images (rest loi)))]))
 
-; Image ListOfImage -> ListOfImage
-; Insert image in proper place in the list of images
-; in increasing order of size
-; Assumption: loi is already sorted
+;; Image ListOfImage -> ListOfImage
+;; Insert image in proper place in the list of images
+;; in increasing order of size
+;; Assumption: loi is already sorted
 
 (define (insert-image img loi)
   (cond [(empty? loi) (cons img empty)]
@@ -59,22 +59,22 @@
                   (insert-image img (rest loi)))
             (cons img loi))]))
 
-; Image Image -> Boolean
-; Produces true if the first image is larger than the second in sie
-; otherwise false
-; Produces false if the areas are same
+;; Image Image -> Boolean
+;; Produces true if the first image is larger than the second in sie
+;; otherwise false
+;; Produces false if the areas are same
 
 (define (larger-image? img1 img2)
   (> (image-area img1) (image-area img2)))
 
-; Image -> Number
-; Produces the area of a given image
+;; Image -> Number
+;; Produces the area of a given image
 
 (define (image-area img)
   (* (image-width img) (image-height img)))
 
-; ListOfImage -> Image
-; Lay down all the images from left to right
+;; ListOfImage -> Image
+;; Lay down all the images from left to right
 
 (define (layout-images loi)
   (cond [(empty? loi) empty-image]
@@ -82,7 +82,7 @@
           (beside (first loi)
                   (layout-images (rest loi)))]))
 
-; Tests
+;; Tests
 
 (define I1 (rectangle 50 30 "solid" "red"))   ; 1500
 (define I2 (rectangle 20 50 "solid" "blue"))  ; 1000

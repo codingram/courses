@@ -16,10 +16,10 @@ rest. Your idea is to make add1 actually be cons, and sub1 actually be rest...
 
 NOTE: The solution was directly from the solution file. |#
 
-; NATURAL is one of:
-;  - empty
-;  - (cons "!" NATURAL)
-; interp. a natural number, the number of "!" in the list is the number
+;; NATURAL is one of:
+;;  - empty
+;;  - (cons "!" NATURAL)
+;; interp. a natural number, the number of "!" in the list is the number
 (define N0 empty)         ;0
 (define N1 (cons "!" N0)) ;1
 (define N2 (cons "!" N1)) ;2
@@ -31,7 +31,7 @@ NOTE: The solution was directly from the solution file. |#
 (define N8 (cons "!" N7))
 (define N9 (cons "!" N8))
 
-; These are the primitives that operate NATURAL:
+;; These are the primitives that operate NATURAL:
 (define (ZERO? n) (empty? n))     ;Any         -> Boolean
 (define (ADD1  n) (cons "!" n))   ;NATURAL     -> NATURAL
 (define (SUB1  n) (rest n))       ;NATURAL[>0] -> NATURAL
@@ -42,8 +42,8 @@ NOTE: The solution was directly from the solution file. |#
          (... n
               (fn-for-NATURAL (SUB1 n)))]))
 
-; NATURAL NATURAL -> NATURAL
-; produce a + b
+;; NATURAL NATURAL -> NATURAL
+;; produce a + b
 
 (define (ADD a b)
   (cond [(ZERO? b) a]
@@ -51,9 +51,9 @@ NOTE: The solution was directly from the solution file. |#
          (ADD (ADD1 a)
               (SUB1 b))]))
 
-; NATURAL NATURAL -> NATURAL
-; produce a - b
-; ASSUME b is <= a
+;; NATURAL NATURAL -> NATURAL
+;; produce a - b
+;; ASSUME b is <= a
 
 (define (SUBTRACT a b)
   (cond [(ZERO? b) a]
@@ -62,23 +62,23 @@ NOTE: The solution was directly from the solution file. |#
                    (SUB1 b))]))
 
 
-; Natural -> Natural
-; produce n*n-1...1
+;; Natural -> Natural
+;; produce n*n-1...1
 
 (define (FACT n)
   (cond [(ZERO? n) N1]
         [else
          (TIMES n (FACT (SUB1 n)))]))
 
-; NATURAL NATURAL -> NATURAL
-; produce a * b
+;; NATURAL NATURAL -> NATURAL
+;; produce a * b
 
 (define (TIMES a b)
   (ADD-REPEATEDLY a b N0))
 
 
-; NATURAL NATURAL NATURAL -> NATURAL
-; add b to c a times
+;; NATURAL NATURAL NATURAL -> NATURAL
+;; add b to c a times
 
 (define (ADD-REPEATEDLY a b c)
   (cond [(ZERO? a) c]
@@ -88,7 +88,7 @@ NOTE: The solution was directly from the solution file. |#
                          (ADD b c))]))
 
 
-; Tests
+;; Tests
 
 (check-expect (ADD N2 N0) N2)
 (check-expect (ADD N0 N3) N3)

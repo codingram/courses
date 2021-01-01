@@ -2,11 +2,11 @@
 
 (require 2htdp/image)
 
-; Remember the constants and data definitions we created in lectures 5h-j
-; to help Eva decide where to go to university:
+;; Remember the constants and data definitions we created in lectures 5h-j
+;; to help Eva decide where to go to university:
 
 
-; Constants:
+;; Constants:
 
 (define FONT-SIZE 24)
 (define FONT-COLOR "black")
@@ -16,25 +16,25 @@
 (define BAR-COLOR "lightblue")
 
 
-; Data definitions:
+;; Data definitions:
 
 (define-struct school (name tuition))
-; School is (make-school String Natural)
-; interp. name is the school's name, tuition is international-students tuition in USD
+;; School is (make-school String Natural)
+;; interp. name is the school's name, tuition is international-students tuition in USD
 
 #;
 (define (fn-for-school s)
   (... (school-name s)
        (school-tuition s)))
 
-; Template rules used:
-;  - compound: (make-school String Natural)
+;; Template rules used:
+;;  - compound: (make-school String Natural)
 
 
-; ListOfSchool is one of:
-;  - empty
-;  - (cons School ListOfSchool)
-; interp. a list of schools
+;; ListOfSchool is one of:
+;;  - empty
+;;  - (cons School ListOfSchool)
+;; interp. a list of schools
 #;
 (define (fn-for-los los)
   (cond [(empty? los) (...)]
@@ -42,18 +42,18 @@
          (... (fn-for-school (first los))
               (fn-for-los (rest los)))]))
 
-; Template rules used:
-;  - one of: 2 cases
-;  - atomic distinct: empty
-;  - compound: (cons School ListOfSchool)
-;  - reference: (first los) is School
-;  - self-reference: (rest los) is ListOfSchool
+;; Template rules used:
+;;  - one of: 2 cases
+;;  - atomic distinct: empty
+;;  - compound: (cons School ListOfSchool)
+;;  - reference: (first los) is School
+;;  - self-reference: (rest los) is ListOfSchool
 
 
-; ListOfNumber is one of:
-;  - empty
-;  - (cons Number ListOfNumber)
-; interp. a list of numbers
+;; ListOfNumber is one of:
+;;  - empty
+;;  - (cons Number ListOfNumber)
+;; interp. a list of numbers
 (define LON1 empty)
 (define LON2 (cons 60 (cons 42 empty)))
 #;
@@ -63,14 +63,14 @@
          (... (first lon)
               (fn-for-lon (rest lon)))]))
 
-; Template rules used:
-;  - one of: 2 cases
-;  - atomic distinct: empty
-;  - compound: (cons Number ListOfNumber)
-;  - self-reference: (rest lon) is ListOfNumber
+;; Template rules used:
+;;  - one of: 2 cases
+;;  - atomic distinct: empty
+;;  - compound: (cons Number ListOfNumber)
+;;  - self-reference: (rest lon) is ListOfNumber
 
 
-; Functions:
+;; Functions:
 
 #| PROBLEM A:
  |
@@ -101,8 +101,8 @@
  |      (school-name s2)
  |      (school-tuition s2))) |#
 
-; ListOfSchool -> School
-; Produces the school with the lowest tuition from the list of schools
+;; ListOfSchool -> School
+;; Produces the school with the lowest tuition from the list of schools
 
 (define (cheapest nelox)
   (cond [(empty? (rest nelox)) (first nelox)]
@@ -113,7 +113,7 @@
             (cheapest (rest nelox)))]))
 
 
-; Tests
+;; Tests
 
 (define S1 (make-school "School1" 27797))
 (define S2 (make-school "School2" 23300))
@@ -135,10 +135,10 @@
  |
  |  Do you need to define a new helper function? |#
 
-; ListOfName is one of:
-; - empty
-; - (cons String ListOfName)
-; interp. list of school names
+;; ListOfName is one of:
+;; - empty
+;; - (cons String ListOfName)
+;; interp. list of school names
 #;
 (define (fn-for-lon lon)
   (cond [(empty? lon) (...)]
@@ -146,8 +146,8 @@
           (... (first lon)
                (fn-for-lon (rest lon)))]))
 
-; ListOfSchool -> ListOfName
-; Produces the list of school names from the list of schools
+;; ListOfSchool -> ListOfName
+;; Produces the list of school names from the list of schools
 
 (define (get-names lon)
   (cond [(empty? lon) empty]
@@ -156,7 +156,7 @@
                 (get-names (rest lon)))]))
 
 
-; Tests
+;; Tests
 
 (check-expect (get-names empty) empty)
 (check-expect (get-names LOS1) (cons "School1" empty))

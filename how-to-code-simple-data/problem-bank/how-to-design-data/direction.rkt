@@ -2,13 +2,13 @@
 ;; about the language level of this file in a form that our tools can easily process.
 #reader(lib "htdp-beginner-reader.ss" "lang")((modname direction) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
 
-; =====================================================================
-; PROBLEM:
-;
-; Given the data definition below, design a function named left 
-; that consumes a compass direction and produces the direction 
-; that results from making a 90 degree left turn.
-; =====================================================================
+;; =====================================================================
+;; PROBLEM:
+;;
+;; Given the data definition below, design a function named left 
+;; that consumes a compass direction and produces the direction 
+;; that results from making a 90 degree left turn.
+;; =====================================================================
 
 ;; =================
 ;; Data definitions:
@@ -38,8 +38,8 @@
 ;; =================
 ;; Functions:
 
-; Direction -> Direction
-; produces the direction that results from making a 90 degree left turn
+;; Direction -> Direction
+;; produces the direction that results from making a 90 degree left turn
 (check-expect (left "N") "W")
 (check-expect (left "S") "E")
 (check-expect (left "E") "N")

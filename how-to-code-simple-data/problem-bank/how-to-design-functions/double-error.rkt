@@ -2,16 +2,16 @@
 ;; about the language level of this file in a form that our tools can easily process.
 #reader(lib "htdp-beginner-reader.ss" "lang")((modname double-error) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
 
-; =====================================================================
-; PROBLEM:
-;
-; There may be more than one problem with this function design. Uncomment 
-; the function design below, and make the minimal changes required to 
-; resolve the error that occurs when you run it.
-; =====================================================================
+;; =====================================================================
+;; PROBLEM:
+;;
+;; There may be more than one problem with this function design. Uncomment 
+;; the function design below, and make the minimal changes required to 
+;; resolve the error that occurs when you run it.
+;; =====================================================================
 
-; Number -> Number
-; doubles n
+;; Number -> Number
+;; doubles n
 (check-expect (double 0) 0)
 (check-expect (double 4) 8)
 (check-expect (double 3.3) (* 2 3.3))

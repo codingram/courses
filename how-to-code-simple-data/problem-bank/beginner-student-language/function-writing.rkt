@@ -2,11 +2,11 @@
 ;; about the language level of this file in a form that our tools can easily process.
 #reader(lib "htdp-beginner-reader.ss" "lang")((modname function-writing) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
 
-; =============================================================================
-; PROBLEM:
-;
-; Write a function that consumes two numbers and produces the larger of the two. 
-; =============================================================================
+;; =============================================================================
+;; PROBLEM:
+;;
+;; Write a function that consumes two numbers and produces the larger of the two. 
+;; =============================================================================
 
 (define (larger num1 num2)
   (if (> num1 num2)

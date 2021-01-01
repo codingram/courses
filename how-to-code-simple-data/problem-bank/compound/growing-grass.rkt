@@ -2,24 +2,24 @@
 ;; about the language level of this file in a form that our tools can easily process.
 #reader(lib "htdp-beginner-reader.ss" "lang")((modname growing-grass) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
 
-; =======================================================================
-; PROBLEM:
-;
-; Design a world program as follows:
-;
-; The world starts off with a piece of grass waiting to grow. As time passes, 
-; the grass grows upwards. Pressing any key cuts the current strand of 
-; grass to 0, allowing a new piece to grow to the right of it.
-;
-; NOTE 1: Remember to follow the HtDW recipe! Be sure to do a proper domain 
-; analysis before starting to work on the code file.
-; =======================================================================
+;; =======================================================================
+;; PROBLEM:
+;;
+;; Design a world program as follows:
+;;
+;; The world starts off with a piece of grass waiting to grow. As time passes, 
+;; the grass grows upwards. Pressing any key cuts the current strand of 
+;; grass to 0, allowing a new piece to grow to the right of it.
+;;
+;; NOTE 1: Remember to follow the HtDW recipe! Be sure to do a proper domain 
+;; analysis before starting to work on the code file.
+;; =======================================================================
 
 (require 2htdp/image)
 (require 2htdp/universe)
 
-; ================
-; Constants:
+;; ================
+;; Constants:
 
 (define WIDTH 610)
 (define HEIGHT 400)
@@ -31,21 +31,21 @@
 (define GROWTH-RATE 2)
 
 
-; ================
-; Data definitions:
+;; ================
+;; Data definitions:
 
 (define-struct grass (offset height))
-; Grass is (make-grass Natural[0, (WIDTH - GRASS-WIDTH - CLEARANCE)] Natural)
-; interp. represents the location and height of the grass at a particular moment:
-;   - offset: offset from the left edge upto the width of BACKGROUND
-;   - height: length of the grass from the bottom edge
+;; Grass is (make-grass Natural[0, (WIDTH - GRASS-WIDTH - CLEARANCE)] Natural)
+;; interp. represents the location and height of the grass at a particular moment:
+;;   - offset: offset from the left edge upto the width of BACKGROUND
+;;   - height: length of the grass from the bottom edge
 
 
-; ================
-; Function definitions:
+;; ================
+;; Function definitions:
 
-; Grass -> Grass
-; main function of the program; starts with (main (make-grass CLEARANCE 0))
+;; Grass -> Grass
+;; main function of the program; starts with (main (make-grass CLEARANCE 0))
 
 (define (main grass)
   (big-bang grass               ; Grass
@@ -53,16 +53,16 @@
     (to-draw render-grass)      ; Grass -> Image
     (on-key handle-key)))       ; Grass KeyEvent -> Grass
 
-; Grass -> Grass
-; Increases the length of grass
+;; Grass -> Grass
+;; Increases the length of grass
 
 (define (grow-grass grass)
   (make-grass
    (grass-offset grass)
    (+ (grass-height grass) GROWTH-RATE)))
 
-; Grass -> Image
-; Produces the image of the grass with it's length and offset 
+;; Grass -> Image
+;; Produces the image of the grass with it's length and offset 
 
 (define (render-grass grass)
   (place-image
@@ -72,9 +72,9 @@
    BACKGROUND))
   
 
-; Grass KeyEvent -> Grass
-; Cuts off the current grass and shifts it by some distance
-; If it goes out of the screen, it will reset the grass back to it's initial state
+;; Grass KeyEvent -> Grass
+;; Cuts off the current grass and shifts it by some distance
+;; If it goes out of the screen, it will reset the grass back to it's initial state
 
 (define (handle-key grass ke)
   (cond [(key=? ke " ")
@@ -83,22 +83,22 @@
              (make-grass CLEARANCE 0))]
         [else grass]))
 
-; =================
-; Tests:
+;; =================
+;; Tests:
 
-; Test data for first case
+;; Test data for first case
 (define G1 (make-grass CLEARANCE 0))
 (define GI1 (rectangle GRASS-WIDTH (grass-height G1) "solid" GRASS-COLOR))
 (define GX1 (+ (grass-offset G1) (/ GRASS-WIDTH 2)))
 (define GY1 (- HEIGHT (/ (grass-height G1) 2)))
 
-; Test data for second case
+;; Test data for second case
 (define G2 (make-grass 100 50))
 (define GI2 (rectangle GRASS-WIDTH (grass-height G2) "solid" GRASS-COLOR))
 (define GX2 (+ (grass-offset G2) (/ GRASS-WIDTH 2)))
 (define GY2 (- HEIGHT (/ (grass-height G2) 2)))
 
-; Test for boundary condition
+;; Test for boundary condition
 (define G3 (make-grass (- WIDTH (+ GRASS-WIDTH CLEARANCE)) 50))
 (define G4 (make-grass (- WIDTH (+ GRASS-WIDTH CLEARANCE 10)) 50))
 

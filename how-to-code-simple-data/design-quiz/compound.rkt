@@ -19,7 +19,7 @@
 (require 2htdp/universe)
 
 
-; Constants
+;; Constants
 
 (define WIDTH 600)
 (define HEIGHT 400)
@@ -39,11 +39,11 @@
                           (above (rectangle 1 61 0 "white") PETAL))))
 
 
-; Data definitions
+;; Data definitions
 
 (define-struct flower (x y size))
-; Flower is (make-flower Integer Integer Natural)
-; interp. x and y coordinate of the flower on BACKGROUND and the size of the flower
+;; Flower is (make-flower Integer Integer Natural)
+;; interp. x and y coordinate of the flower on BACKGROUND and the size of the flower
 #;
 (define (fn-for-flower f)
   (... (flower-x f)
@@ -51,10 +51,10 @@
        (flower-size f)))
 
 
-; Function definitions
+;; Function definitions
 
-; Flower -> Flower
-; main function of the program, starts with (main ...)
+;; Flower -> Flower
+;; main function of the program, starts with (main ...)
 
 (define (main f)
   (big-bang
@@ -63,49 +63,49 @@
     (on-tick grow-flower)          ; Flower -> Flower
     (on-mouse handle-mouse)))      ; Flower x y mevt -> Flower
 
-; Flower -> Image
-; Produces the current image of flower on BACKGROUND
+;; Flower -> Image
+;; Produces the current image of flower on BACKGROUND
 
 (define (render-flower f)
   (place-image
     (which-image f)
     (flower-x f) (flower-y f) BACKGROUND))
 
-; Flower -> Image
-; Produces either an empty image or of flower as per the size given
+;; Flower -> Image
+;; Produces either an empty image or of flower as per the size given
 
 (define (which-image f)
   (if (zero? (flower-size f))
     empty-image
     (flower-image f)))
 
-; Flower -> Image
-; Produces the image of the flower for given size
-; Assumption: flower-size is greater than 0
+;; Flower -> Image
+;; Produces the image of the flower for given size
+;; Assumption: flower-size is greater than 0
 
 (define (flower-image f)
   (rotate
     (remainder (flower-size f) 360)
     (scale (/ (flower-size f) 100) FLOWER)))
 
-; Flower -> Flower
-; Increases the size of the flower and rotates it as well
+;; Flower -> Flower
+;; Increases the size of the flower and rotates it as well
 
 (define (grow-flower f)
   (make-flower (flower-x f)
                (flower-y f)
                (add1 (flower-size f))))
 
-; Flower x y mevt -> Flower
-; Removes the previous flower if there and grows flower at x and y coordinate
-; of where the mouse clicked
+;; Flower x y mevt -> Flower
+;; Removes the previous flower if there and grows flower at x and y coordinate
+;; of where the mouse clicked
 
 (define (handle-mouse f x y mevt)
   (cond [(mouse=? mevt "button-down") (make-flower x y 0)]
         [else f]))
 
 
-; Tests
+;; Tests
 
 (define F1 (make-flower 10 10 0))
 (define F2 (make-flower 20 40 50))
@@ -136,5 +136,5 @@
 (check-expect (handle-mouse F3 10 40 "button-down") (make-flower 10 40 0))
 
 
-; Run the program
+;; Run the program
 (main (make-flower 100 100 0))

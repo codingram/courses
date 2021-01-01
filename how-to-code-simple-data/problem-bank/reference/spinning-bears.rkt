@@ -31,7 +31,7 @@
 (require "images/bear.rkt")
 
 
-; Constants
+;; Constants
 
 (define WIDTH 800)
 (define HEIGHT 600)
@@ -40,22 +40,22 @@
 (define ROTATIONAL-SPEED 3)
 
 
-; Data definitions
+;; Data definitions
 
 (define-struct bear (x y angle))
-; Bear is (make-bear Number Number Natural(0, 360])
-; interp. the x and y coordinate of the bear image and
-;         the current angular rotation in degress
+;; Bear is (make-bear Number Number Natural(0, 360])
+;; interp. the x and y coordinate of the bear image and
+;;         the current angular rotation in degress
 #;
 (define (fn-for-bear b)
   (... (bear-x b)
        (bear-y b)
        (bear-angle b)))
 
-; ListOfBear is one of:
-; - empty
-; - (cons Bear ListOfBear)
-; interp. the list of bears
+;; ListOfBear is one of:
+;; - empty
+;; - (cons Bear ListOfBear)
+;; interp. the list of bears
 
 (define (fn-for-lob lob)
   (cond [(empty? lob) (...)]
@@ -64,10 +64,10 @@
                (fn-for-lob (rest lob)))]))
 
 
-; Function definitions
+;; Function definitions
 
-; ListOfBear -> ListOfBear
-; Main function of the program, starts with (main empty)
+;; ListOfBear -> ListOfBear
+;; Main function of the program, starts with (main empty)
 
 (define (main lob)
   (big-bang
@@ -76,17 +76,17 @@
     (to-draw render-bears)       ; ListOfBear -> Image
     (on-mouse handle-mouse)))    ; ListOfBear x y me -> ListOfBear
 
-; Bear -> Bear
-; Rotates the bear with ROTATIONAL-SPEED
-; Helper function for change-bears
+;; Bear -> Bear
+;; Rotates the bear with ROTATIONAL-SPEED
+;; Helper function for change-bears
 
 (define (rotate-bear b)
   (make-bear
     (bear-x b) (bear-y b)
     (+ (bear-angle b) ROTATIONAL-SPEED)))
 
-; ListOfBear -> ListOfBear
-; Rotates each bear in the list with ROTATIONAL-SPEED
+;; ListOfBear -> ListOfBear
+;; Rotates each bear in the list with ROTATIONAL-SPEED
 
 (define (change-bears lob)
   (cond [(empty? lob) empty]
@@ -94,15 +94,15 @@
           (cons (rotate-bear (first lob))
                 (change-bears (rest lob)))]))
 
-; Bear -> Image
-; Produces the image of a single bear rotated at the given angle
+;; Bear -> Image
+;; Produces the image of a single bear rotated at the given angle
 
 (define (bear-image b)
   (rotate (bear-angle b) BEAR))
 
-; ListOfBear -> Image
-; Produces the image of all the bears on BACKGROUND at the given data
-; of x and y coordinate and the angle for each bear
+;; ListOfBear -> Image
+;; Produces the image of all the bears on BACKGROUND at the given data
+;; of x and y coordinate and the angle for each bear
 
 (define (render-bears lob)
   (cond [(empty? lob) BACKGROUND]
@@ -112,9 +112,9 @@
                        (bear-y (first lob))
                        (render-bears (rest lob)))]))
 
-; ListOfBear x y me -> ListOfBear
-; Adds another bear at the x and y coordinate of the mouse click
-; to the given list of bears
+;; ListOfBear x y me -> ListOfBear
+;; Adds another bear at the x and y coordinate of the mouse click
+;; to the given list of bears
 
 (define (handle-mouse lob x y me)
   (cond [(mouse=? me "button-down")
@@ -122,7 +122,7 @@
         [else lob]))
 
 
-; Tests
+;; Tests
 
 (define B1 (make-bear 50 50 10))
 (define B2 (make-bear 70 30 0))
@@ -162,5 +162,5 @@
               (cons (make-bear 150 200 0) LOB3))
 (check-expect (handle-mouse LOB3 140 250 "enter") LOB3)
 
-; Uncomment the below line to start the program
-; (main empty)
+;; Uncomment the below line to start the program
+;; (main empty)

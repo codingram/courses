@@ -10,21 +10,21 @@ So (concentric-circles 5 "black") should produce: run the program |#
 (require 2htdp/image)
 
 
-; Constants
+;; Constants
 
 (define DISTANCE 10)
 
 
-; Data definitions
+;; Data definitions
 
-; Color is String
-; interp. the color of the circle
+;; Color is String
+;; interp. the color of the circle
 
 
-; Function definitions
+;; Function definitions
 
-; Natural Color -> Image
-; Produces n concentric circles each at DISTANCE apart
+;; Natural Color -> Image
+;; Produces n concentric circles each at DISTANCE apart
 
 (define (concentric-circles n c)
   (cond [(zero? n) empty-image]
@@ -33,7 +33,7 @@ So (concentric-circles 5 "black") should produce: run the program |#
                    (concentric-circles (sub1 n) c))]))
 
 
-; Tests
+;; Tests
 
 (check-expect (concentric-circles 0 "white") empty-image)
 (check-expect (concentric-circles 1 "white")

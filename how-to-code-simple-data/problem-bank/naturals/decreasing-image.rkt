@@ -10,23 +10,23 @@ So (decreasing-image 3) should produce: run the program |#
 (require 2htdp/image)
 
 
-; Constants
+;; Constants
 
 (define TEXT-SIZE 30)
 (define TEXT-COLOR "white")
 
 
-; Functions
+;; Functions
 
-; Number -> Image
-; Converts a number into an equivalent image
-; Helper function for decreasing-image
+;; Number -> Image
+;; Converts a number into an equivalent image
+;; Helper function for decreasing-image
 
 (define (number->image num)
   (text (number->string num) TEXT-SIZE TEXT-COLOR))
 
-; Natural -> Image
-; Produces an image of all the numbers from n to 0 side by side
+;; Natural -> Image
+;; Produces an image of all the numbers from n to 0 side by side
 
 (define (decreasing-image n)
   (cond [(zero? n) (number->image 0)]
@@ -35,7 +35,7 @@ So (decreasing-image 3) should produce: run the program |#
                  (decreasing-image (sub1 n)))]))
 
 
-; Tests
+;; Tests
 
 (check-expect (number->image 0) (text "0" TEXT-SIZE TEXT-COLOR))
 (check-expect (number->image 1) (text "1" TEXT-SIZE TEXT-COLOR))

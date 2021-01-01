@@ -22,12 +22,12 @@ So add1 is kind of like cons, it takes a natural and makes a bigger one
 (other than 0) and gives the next smallest one (rest gives shorter list). |#
 
 
-; Consider this type comment:
+;; Consider this type comment:
 
-; Natural is one of:
-;  - 0
-;  - (add1 Natural)
-; interp. a natural number
+;; Natural is one of:
+;;  - 0
+;;  - (add1 Natural)
+;; interp. a natural number
 (define N0 0)         ;0
 (define N1 (add1 N0)) ;1
 (define N2 (add1 N1)) ;2
@@ -40,11 +40,11 @@ So add1 is kind of like cons, it takes a natural and makes a bigger one
           ;                            ;back to add it
           (fn-for-natural (sub1 n)))]))
 
-; Template rules used:
-;  - one-of: two cases
-;  - atomic distinct: 0
-;  - compound: (add1 Natural)
-;  - self-reference: (sub1 n) is Natural
+;; Template rules used:
+;;  - one-of: two cases
+;;  - atomic distinct: 0
+;;  - compound: (add1 Natural)
+;;  - self-reference: (sub1 n) is Natural
 
 
 #| PROBLEMs:
@@ -56,8 +56,8 @@ So add1 is kind of like cons, it takes a natural and makes a bigger one
     the naturals of the form (cons n (cons n-1 ... empty)) not including 0. |#
 
 
-; Natural -> Natural
-; produce sum of Natural[0, n]
+;; Natural -> Natural
+;; produce sum of Natural[0, n]
 
 (define (sum n)
   (cond [(zero? n) 0]
@@ -65,8 +65,8 @@ So add1 is kind of like cons, it takes a natural and makes a bigger one
          (+ n
             (sum (sub1 n)))]))
 
-; Natural -> ListOfNatural
-; produce (cons n (cons n-1 ... empty)), not including 0
+;; Natural -> ListOfNatural
+;; produce (cons n (cons n-1 ... empty)), not including 0
 
 (define (to-list n)
   (cond [(zero? n) empty]
@@ -75,7 +75,7 @@ So add1 is kind of like cons, it takes a natural and makes a bigger one
                (to-list (sub1 n)))]))
 
 
-; Tests
+;; Tests
 
 (check-expect (sum 0) 0)
 (check-expect (sum 1) 1)

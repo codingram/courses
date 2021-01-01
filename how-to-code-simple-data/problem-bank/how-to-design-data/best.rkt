@@ -2,14 +2,14 @@
 ;; about the language level of this file in a form that our tools can easily process.
 #reader(lib "htdp-beginner-reader.ss" "lang")((modname best) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
 
-; =====================================================================
-; PROBLEM:
-;
-; Using the CityName data definition below design a function
-; that produces true if the given city is the best in the world. 
-; (You are free to decide for yourself which is the best city 
-; in the world.)
-; =====================================================================
+;; =====================================================================
+;; PROBLEM:
+;;
+;; Using the CityName data definition below design a function
+;; that produces true if the given city is the best in the world. 
+;; (You are free to decide for yourself which is the best city 
+;; in the world.)
+;; =====================================================================
 
 ;; Data definitions:
 
@@ -27,8 +27,8 @@
 ;;
 
 ;; Functions:
-; CityName -> Boolean
-; check if the given CityName is the best as decided by us
+;; CityName -> Boolean
+;; check if the given CityName is the best as decided by us
 (check-expect (best-city "Surat") false)
 (check-expect (best-city "New York") false)
 (check-expect (best-city "Tosh") true)

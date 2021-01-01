@@ -27,11 +27,11 @@
 (require 2htdp/image)
 
 (define-struct school (name tuition next))
-; School is one of:
-; - false
-; - (make-school (String Natural School))
-; interp. an arbitrary number of schools, where for each school we have its
-;         name and its tuition in INR
+;; School is one of:
+;; - false
+;; - (make-school (String Natural School))
+;; interp. an arbitrary number of schools, where for each school we have its
+;;         name and its tuition in INR
 
 (define (fn-for-school s)
   (cond [(false? s) (...)]
@@ -41,7 +41,7 @@
               (fn-for-school (school-next s)))]))
 
 
-; Constants
+;; Constants
 
 (define FONT-SIZE 20)
 (define FONT-COLOR "black")
@@ -51,10 +51,10 @@
 (define Y-SCALE 1/100)
 
 
-; Functions
+;; Functions
 
-; School -> Image
-; Produces the bar chart for the given schools
+;; School -> Image
+;; Produces the bar chart for the given schools
 
 (define (bar-chart s)
   (cond [(false? s) (square 0 "solid" "black")]
@@ -68,7 +68,7 @@
            (rectangle BAR-WIDTH (* (school-tuition s) Y-SCALE) "solid" BAR-COLOR))
           (bar-chart (school-next s)))]))
 
-; Tests
+;; Tests
 
 (check-expect (bar-chart false) (square 0 "solid" "black"))
 (check-expect (bar-chart (make-school "S1" 6000 false))
@@ -95,5 +95,5 @@
                 (rectangle BAR-WIDTH (* 6000 Y-SCALE) "solid" BAR-COLOR))
                (square 0 "solid" "black")))
 
-; Uncomment the below line to run this program
-; (bar-chart (make-school "S2" 9000 (make-school "S1" 6000 (make-school "S0" 7500 false))))
+;; Uncomment the below line to run this program
+;; (bar-chart (make-school "S2" 9000 (make-school "S1" 6000 (make-school "S0" 7500 false))))

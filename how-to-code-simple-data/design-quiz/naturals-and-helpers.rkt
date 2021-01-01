@@ -3,17 +3,17 @@
 (require 2htdp/image)
 (require "images/cookies.rkt")
 
-; Constants
+;; Constants
 
-; COOKIES (from images/cookies.rkt)
+;; COOKIES (from images/cookies.rkt)
 
 
-; Data Definitions
+;; Data Definitions
 
-; Natural is one of:
-;  - 0
-;  - (add1 Natural)
-; interp. a natural number
+;; Natural is one of:
+;;  - 0
+;;  - (add1 Natural)
+;; interp. a natural number
 (define N0 0)         ;0
 (define N1 (add1 N0)) ;1
 (define N2 (add1 N1)) ;2
@@ -25,11 +25,11 @@
          (... n   ; n is added because it's often useful
               (fn-for-natural (sub1 n)))]))
 
-; Template rules used:
-;  - one-of: two cases
-;  - atomic distinct: 0
-;  - compound: 2 fields
-;  - self-reference: (sub1 n) is Natural
+;; Template rules used:
+;;  - one-of: two cases
+;;  - atomic distinct: 0
+;;  - compound: 2 fields
+;;  - self-reference: (sub1 n) is Natural
 
 
 
@@ -42,8 +42,8 @@
  | For instance, a 3-wide pyramid of cookies would look like this:
  | Run the program to look at the image |#
 
-; Natural Image -> Image
-; produce an n-wide pyramid of the given image
+;; Natural Image -> Image
+;; produce an n-wide pyramid of the given image
 
 (define (pyramid num img)
   (cond [(zero? num) empty-image]
@@ -52,8 +52,8 @@
            (pyramid (sub1 num) img)
            (row-images num img))]))
 
-; Natural Image -> Image
-; Produces n images in a row
+;; Natural Image -> Image
+;; Produces n images in a row
 
 (define (row-images num img)
   (cond [(zero? num) empty-image]
@@ -62,7 +62,7 @@
                  (row-images (sub1 num) img))]))
 
 
-; Tests
+;; Tests
 
 (check-expect (pyramid 0 COOKIES) empty-image)
 (check-expect (pyramid 1 COOKIES) COOKIES)
@@ -87,26 +87,26 @@
  |
  | To assist you, we supply the relevant data definitions. |#
 
-; Blob is one of:
-; - "solid"
-; - "bubble"
-; interp.  a gelatinous blob, either a solid or a bubble
-; Examples are redundant for enumerations
+;; Blob is one of:
+;; - "solid"
+;; - "bubble"
+;; interp.  a gelatinous blob, either a solid or a bubble
+;; Examples are redundant for enumerations
 #;
 (define (fn-for-blob b)
   (cond [(string=? b "solid") (...)]
         [(string=? b "bubble") (...)]))
 
-; Template rules used:
-; - one-of: 2 cases
-; - atomic distinct: "solid"
-; - atomic distinct: "bubble"
+;; Template rules used:
+;; - one-of: 2 cases
+;; - atomic distinct: "solid"
+;; - atomic distinct: "bubble"
 
 
-; ListOfBlob is one of:
-; - empty
-; - (cons Blob ListOfBlob)
-; interp. a sequence of blobs in a test tube, listed from top to bottom.
+;; ListOfBlob is one of:
+;; - empty
+;; - (cons Blob ListOfBlob)
+;; interp. a sequence of blobs in a test tube, listed from top to bottom.
 
 #;
 (define (fn-for-lob lob)
@@ -115,15 +115,15 @@
          (... (fn-for-blob (first lob))
               (fn-for-lob (rest lob)))]))
 
-; Template rules used
-; - one-of: 2 cases
-; - atomic distinct: empty
-; - compound: 2 fields
-; - reference: (first lob) is Blob
-; - self-reference: (rest lob) is ListOfBlob
+;; Template rules used
+;; - one-of: 2 cases
+;; - atomic distinct: empty
+;; - compound: 2 fields
+;; - reference: (first lob) is Blob
+;; - self-reference: (rest lob) is ListOfBlob
 
-; ListOfBlob -> ListOfBlob
-; produce a list of blobs that sinks the given solid blobs by one
+;; ListOfBlob -> ListOfBlob
+;; produce a list of blobs that sinks the given solid blobs by one
 
 (define (sink lob)
   (cond [(empty? lob) empty]
@@ -131,9 +131,9 @@
          (sink-one (first lob)
               (sink (rest lob)))]))
 
-; Blob ListOfBlob -> ListOfBlob
-; Sink one blob in the list of blobs
-; Assumption: ListOfBlob is already sinked (all solids are at the end)
+;; Blob ListOfBlob -> ListOfBlob
+;; Sink one blob in the list of blobs
+;; Assumption: ListOfBlob is already sinked (all solids are at the end)
 
 (define (sink-one b lob)
   (cond [(empty? lob) (cons b empty)]
@@ -142,13 +142,13 @@
            (cons (first lob) (cons b (rest lob)))
            (cons b lob))]))
 
-; Blob -> Boolean
-; Produces true if the blob is solid
+;; Blob -> Boolean
+;; Produces true if the blob is solid
 
 (define (blob-solid? b)
   (string=? b "solid"))
 
-; Tests
+;; Tests
 
 (define B "bubble")
 (define S "solid")

@@ -1,41 +1,41 @@
 #lang htdp/bsl
 
-; ==============================================================================
-; PROBLEM:
-;
-; Design a world program as follows:
-;
-; The world starts off with a small square at the center of the screen. As time
-; passes, the square stays fixed at the center, but increases in size and rotates
-; at a constant speed.Pressing the spacebar resets the world so that the square
-; is small and unrotated.
-;
-; NOTE 1: Remember to follow the HtDW recipe! Be sure to do a proper domain
-; analysis before starting to work on the code file.
-;
-; NOTE 2: The rotate function requires an angle in degrees as its first
-; argument. By that it means Number[0, 360). As time goes by the box may end up
-; spinning more than once, for example, you may get to a point where it has spun
-; 362 degrees, which rotate won't accept. One solution to that is to use the
-; remainder function as follows:
-;
-; (rotate (remainder ... 360) (text "hello" 30 "black"))
-;
-; where ... can be an expression that produces any positive number of degrees
-; and remainder will produce a number in [0, 360).
-;
-; Remember that you can lookup the documentation of rotate if you need to know
-; more about it.
-;
-; NOTE 3: There is a way to do this without using compound data. But you should
-; design the compound data based solution.
-; ==============================================================================
+;; ==============================================================================
+;; PROBLEM:
+;;
+;; Design a world program as follows:
+;;
+;; The world starts off with a small square at the center of the screen. As time
+;; passes, the square stays fixed at the center, but increases in size and rotates
+;; at a constant speed.Pressing the spacebar resets the world so that the square
+;; is small and unrotated.
+;;
+;; NOTE 1: Remember to follow the HtDW recipe! Be sure to do a proper domain
+;; analysis before starting to work on the code file.
+;;
+;; NOTE 2: The rotate function requires an angle in degrees as its first
+;; argument. By that it means Number[0, 360). As time goes by the box may end up
+;; spinning more than once, for example, you may get to a point where it has spun
+;; 362 degrees, which rotate won't accept. One solution to that is to use the
+;; remainder function as follows:
+;;
+;; (rotate (remainder ... 360) (text "hello" 30 "black"))
+;;
+;; where ... can be an expression that produces any positive number of degrees
+;; and remainder will produce a number in [0, 360).
+;;
+;; Remember that you can lookup the documentation of rotate if you need to know
+;; more about it.
+;;
+;; NOTE 3: There is a way to do this without using compound data. But you should
+;; design the compound data based solution.
+;; ==============================================================================
 
 (require 2htdp/image)
 (require 2htdp/universe)
 
-; ============
-; CONSTANTS
+;; ============
+;; CONSTANTS
 
 (define WIDTH 500)
 (define HEIGHT WIDTH)
@@ -47,21 +47,21 @@
 (define BOX-MODE "solid")
 
 
-; ============
-; Data definition
+;; ============
+;; Data definition
 
 (define-struct box (length angle))
-; Box is (make-square Natural Natural[0, 360))
-; interp. the box with the following properties:
-;   - length: Natural, length of the square
-;   - angle: Natural[0, 360), angle of rotation of the square
+;; Box is (make-square Natural Natural[0, 360))
+;; interp. the box with the following properties:
+;;   - length: Natural, length of the square
+;;   - angle: Natural[0, 360), angle of rotation of the square
 
 
-; ============
-; Function definition
+;; ============
+;; Function definition
 
-; Box -> Box
-; main function of the program; starts with (main (make-box 0 0))
+;; Box -> Box
+;; main function of the program; starts with (main (make-box 0 0))
 
 (define (main box)
   (big-bang box                   ; Box
@@ -70,8 +70,8 @@
     (on-key handle-key)))         ; Box KeyEvent -> Box
 
 
-; Box -> Box
-; produce the box with increased length and angle
+;; Box -> Box
+;; produce the box with increased length and angle
 
 (define (change-square b)
   (make-box
@@ -79,8 +79,8 @@
    (+ (box-angle b) ROTATIONAL-SPEED)))
 
 
-; Box -> Image
-; produces the image of the box with length and angle to display
+;; Box -> Image
+;; produces the image of the box with length and angle to display
 
 (define (render-square b)
   (place-image
@@ -90,16 +90,16 @@
    (/ WIDTH 2) (/ HEIGHT 2) BACKGROUND))
 
 
-; Box KeyEvent -> Box
-; resets the image of the box back to it's initial state
+;; Box KeyEvent -> Box
+;; resets the image of the box back to it's initial state
 
 (define (handle-key b ke)
   (cond [(key=? ke " ") (make-box 0 0)]
         [else b]))
 
 
-; ============
-; Tests
+;; ============
+;; Tests
 
 (define B1 (make-box 0 0))        ; Initial state
 (define B2 (make-box 200 124))

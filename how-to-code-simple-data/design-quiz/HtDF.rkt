@@ -7,19 +7,19 @@
 
 (require 2htdp/image)
 
-; Image Image -> Boolean
-; Produces true if the first image is larger than the second
+;; Image Image -> Boolean
+;; Produces true if the first image is larger than the second
 
 (define (is-image-large? img1 img2)
   (> (image-area img1) (image-area img2)))
 
-; Image -> Number
-; Returns the area of the image
+;; Image -> Number
+;; Returns the area of the image
 
 (define (image-area img)
   (* (image-height img) (image-width img)))
 
-; Tests
+;; Tests
 
 (define I1 (rectangle 10 15 "solid" "red"))    ; 150
 (define I2 (rectangle 15 20 "solid" "green"))  ; 300

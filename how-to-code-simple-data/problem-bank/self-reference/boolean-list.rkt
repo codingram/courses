@@ -1,15 +1,15 @@
 #lang htdp/bsl
 
-; Data definitions:
-;
-; PROBLEM A:
-;
-; Design a data definition to represent a list of booleans. Call it ListOfBoolean.
+;; Data definitions:
+;;
+;; PROBLEM A:
+;;
+;; Design a data definition to represent a list of booleans. Call it ListOfBoolean.
 
-; ListOfBoolean is one of:
-; - empty
-; - (cons Boolean ListOfBoolean)
-; interp. list of Boolean values
+;; ListOfBoolean is one of:
+;; - empty
+;; - (cons Boolean ListOfBoolean)
+;; interp. list of Boolean values
 
 #;
 (define (fn-for-lob lob)
@@ -18,16 +18,16 @@
          (... (first lob)
               (fn-for-lob (rest lob)))]))
 
-; Functions:
-;
-; PROBLEM B:
-;
-; Design a function that consumes a list of boolean values and produces true
-; if every value in the list is true. If the list is empty, your function
-; should also produce true. Call it all-true?
+;; Functions:
+;;
+;; PROBLEM B:
+;;
+;; Design a function that consumes a list of boolean values and produces true
+;; if every value in the list is true. If the list is empty, your function
+;; should also produce true. Call it all-true?
 
-; ListOfBooleans -> Boolean
-; Produces true if all the values in the list is true else false
+;; ListOfBooleans -> Boolean
+;; Produces true if all the values in the list is true else false
 
 (define (all-true? lob)
   (cond [(empty? lob) true]
@@ -36,7 +36,7 @@
               (all-true? (rest lob)))]))
 
 
-; Tests
+;; Tests
 
 (define LOB1 empty)
 (define LOB2 (cons true empty))

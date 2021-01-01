@@ -2,12 +2,12 @@
 ;; about the language level of this file in a form that our tools can easily process.
 #reader(lib "htdp-beginner-reader.ss" "lang")((modname aisle) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
 
-; =====================================================================
-; PROBLEM:
-;
-; Using the SeatNum data definition below design a function
-; that produces true if the given seat number is on the aisle. 
-; =====================================================================
+;; =====================================================================
+;; PROBLEM:
+;;
+;; Using the SeatNum data definition below design a function
+;; that produces true if the given seat number is on the aisle. 
+;; =====================================================================
 
 ;; Data definitions:
 
@@ -25,8 +25,8 @@
 
 
 ;; Functions:
-; SeatNum -> Boolean
-; produces true if the the seat numbers in a row are aisle seats
+;; SeatNum -> Boolean
+;; produces true if the the seat numbers in a row are aisle seats
 (check-expect (aisle? 1) true)
 (check-expect (aisle? 14) false)
 (check-expect (aisle? 32) true)

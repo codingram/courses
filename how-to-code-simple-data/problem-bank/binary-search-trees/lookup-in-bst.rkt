@@ -1,25 +1,25 @@
 #lang htdp/bsl
 
-; Consider the following data definition for a binary search tree:
+;; Consider the following data definition for a binary search tree:
 
 
-; Data definitions:
-; From ./bsl-dd.rkt
+;; Data definitions:
+;; From ./bsl-dd.rkt
 
 (define-struct node (key value left right))
-; Node is (make-node Natural String BST BST)
-; BST (Binary Search Tree) is one of:
-; - false
-; - (make-node Natural String BST BST)
-; interp. false means no BST, or empty BST
-;         key and value is the node key and node value
-;         left and right are left and right subtree from node
-; INVARIANT: for a given node:
-;   key > all keys in its left child
-;   key < all keys in its right child
-;   the same key never appears twice in the tree
+;; Node is (make-node Natural String BST BST)
+;; BST (Binary Search Tree) is one of:
+;; - false
+;; - (make-node Natural String BST BST)
+;; interp. false means no BST, or empty BST
+;;         key and value is the node key and node value
+;;         left and right are left and right subtree from node
+;; INVARIANT: for a given node:
+;;   key > all keys in its left child
+;;   key < all keys in its right child
+;;   the same key never appears twice in the tree
 
-; Examples:
+;; Examples:
 (define BST0 false)
 (define BST1 (make-node 1 "a" false false))
 (define BST3 (make-node 3 "b" false false))
@@ -42,14 +42,14 @@
                (fn-for-tree (node-left tree))
                (fn-for-tree (node-right tree)))]))
 
-; Template rules used:
-;  - one of: 2 cases
-;  - atomic-distinct: false
-;  - compound: (make-node Integer String BST BST)
-;  - self reference: (node-left t) has type BST
-;  - self reference: (node-right t) has type BST
+;; Template rules used:
+;;  - one of: 2 cases
+;;  - atomic-distinct: false
+;;  - compound: (make-node Integer String BST BST)
+;;  - self reference: (node-left t) has type BST
+;;  - self reference: (node-right t) has type BST
 
-; Functions:
+;; Functions:
 
 
 #| PROBLEM:
@@ -60,8 +60,8 @@
  | is written in a special way as shown below. |#
 
 
-; BST Natural -> String or false
-; Try to find node with given key, if found produce value; if not found produce false.
+;; BST Natural -> String or false
+;; Try to find node with given key, if found produce value; if not found produce false.
 
 (define (lookup-key tree key)
   (cond [(false? tree) false]
@@ -75,7 +75,7 @@
 
 
 
-; Tests
+;; Tests
 
 (check-expect (lookup-key BST0 1) false)
 (check-expect (lookup-key BST1 1) "a")

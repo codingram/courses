@@ -16,7 +16,7 @@
 (require 2htdp/universe)
 
 
-; Constants
+;; Constants
 
 (define WIDTH 300)
 (define HEIGHT 20)
@@ -27,24 +27,24 @@
 (define TEXT-COLOR "black")
 
 
-; Data Definitions
+;; Data Definitions
 
 (define-struct editor (pre post))
-; Editor is (make-editor String String)
-; interp. pre is the text before the cursor, post is the text after
+;; Editor is (make-editor String String)
+;; interp. pre is the text before the cursor, post is the text after
 
-; Position is Natural[0, 1]
-; interp. position of the character to pop from string in string-pop function
-; where 0: remove the last character
-;       1: remove the first character
-; for string-char function:
-;       0: return the last character
-;       1: return the first character
+;; Position is Natural[0, 1]
+;; interp. position of the character to pop from string in string-pop function
+;; where 0: remove the last character
+;;       1: remove the first character
+;; for string-char function:
+;;       0: return the last character
+;;       1: return the first character
 
-; Function definitions
+;; Function definitions
 
-; Editor -> Editor
-; main function of the program, starts with (main (make-editor "" ""))
+;; Editor -> Editor
+;; main function of the program, starts with (main (make-editor "" ""))
 
 (define (main ed)
   (big-bang
@@ -52,8 +52,8 @@
     (to-draw render-input)     ; Editor -> Image
     (on-key handle-input)))    ; Editor KeyEvent -> Editor
 
-; Editor -> Image
-; Produces the image of the cumulative input on BACKGROUND
+;; Editor -> Image
+;; Produces the image of the cumulative input on BACKGROUND
 
 (define (render-input ed)
   (overlay/align "left" "middle"
@@ -62,17 +62,17 @@
             (text (editor-post ed) TEXT-SIZE TEXT-COLOR))
     BACKGROUND))
 
-; String Position -> String
-; Removes either the first or last character in a given string
-; according to the pos value (0 for last, 1 for first)
+;; String Position -> String
+;; Removes either the first or last character in a given string
+;; according to the pos value (0 for last, 1 for first)
 
 (define (string-pop str pos)
   (if (> (string-length str) 0)
     (substring str pos (+ (- (string-length str) 1) pos))
     str))
 
-; String -> String
-; Returns the last character of the given string
+;; String -> String
+;; Returns the last character of the given string
 
 (define (string-char str pos)
   (if (> (string-length str) 0)
@@ -82,8 +82,8 @@
            (string-ith str 0)])
     str))
 
-; Editor KeyEvent -> Editor
-; Handles the key presses as mentioned in the problem
+;; Editor KeyEvent -> Editor
+;; Handles the key presses as mentioned in the problem
 
 (define (handle-input ed ke)
   (cond [(key=? ke "\b")
@@ -102,7 +102,7 @@
         ))
 
 
-; Tests
+;; Tests
 
 (define E1 (make-editor "" ""))           ; text input
 (define E2 (make-editor "" "abc"))        ; right arrow key
@@ -143,5 +143,5 @@
                                           (text "test" TEXT-SIZE TEXT-COLOR))
                                   BACKGROUND))
 
-; Uncomment the below line to run the program
-; (main (make-editor "" ""))
+;; Uncomment the below line to run the program
+;; (main (make-editor "" ""))

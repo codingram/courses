@@ -2,19 +2,19 @@
 ;; about the language level of this file in a form that our tools can easily process.
 #reader(lib "htdp-beginner-reader.ss" "lang")((modname tracker) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
 
-; ==============================================================
-; PROBLEM:
-;
-; Design a world program that displays the current (x, y) position
-; of the mouse at that current position. So as the mouse moves the 
-; numbers in the (x, y) display changes and its position changes. 
-; ==============================================================
+;; ==============================================================
+;; PROBLEM:
+;;
+;; Design a world program that displays the current (x, y) position
+;; of the mouse at that current position. So as the mouse moves the 
+;; numbers in the (x, y) display changes and its position changes. 
+;; ==============================================================
 
 (require 2htdp/image)
 (require 2htdp/universe)
 
-; ===============
-; Constants
+;; ===============
+;; Constants
 
 (define WIDTH 500)
 (define HEIGHT WIDTH)
@@ -24,27 +24,27 @@
 (define TEXT-COLOR "white")
 
 
-; ===============
-; Data definitions
+;; ===============
+;; Data definitions
 
 (define-struct pointer (x y))
-; Pointer is (make-pointer Natural Natural)
-; interp. the x and y coordinates of the mouse pointer
+;; Pointer is (make-pointer Natural Natural)
+;; interp. the x and y coordinates of the mouse pointer
 
 
-; ===============
-; Function definitions
+;; ===============
+;; Function definitions
 
-; Pointer -> Pointer
-; main function of the program; starts with (main (make-pointer 0 0))
+;; Pointer -> Pointer
+;; main function of the program; starts with (main (make-pointer 0 0))
 
 (define (main pt)
   (big-bang pt                    ; Pointer
     (to-draw render-coords)       ; Pointer -> Image
     (on-mouse handle-mouse)))     ; Pointer x-coord y-coord MouseEvent -> Pointer
 
-; Pointer -> Image
-; Produces the image of x and y coordinate on the background
+;; Pointer -> Image
+;; Produces the image of x and y coordinate on the background
 
 (define (render-coords pt)
   (place-image
@@ -54,8 +54,8 @@
    (pointer-x pt) (pointer-y pt)
    BACKGROUND))
 
-; Pointer x-coord y-coord MouseEvent -> Pointer
-; Change the position of the text image wherever the mouse moves to
+;; Pointer x-coord y-coord MouseEvent -> Pointer
+;; Change the position of the text image wherever the mouse moves to
 
 (define (handle-mouse pt x y me)
   (cond [(mouse=? me "move")
@@ -63,8 +63,8 @@
         [else pt]))
 
 
-; ===================
-; Tests:
+;; ===================
+;; Tests:
 
 (define P1 (make-pointer 0 0))
 (define P2 (make-pointer 100 150))

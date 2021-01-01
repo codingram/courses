@@ -23,7 +23,7 @@
 (require 2htdp/image)
 
 
-; Constants
+;; Constants
 
 (define FONT-SIZE 20)
 (define FONT-COLOR "black")
@@ -33,20 +33,20 @@
 (define Y-SCALE 1/100)
 
 
-; Data definitions
+;; Data definitions
 
 (define-struct school (name tuition))
-; School is (make-school String Natural)
-; interp. name of the school and tuition for that school in INR
+;; School is (make-school String Natural)
+;; interp. name of the school and tuition for that school in INR
 #;
 (define (fn-for-school s)
   (... (school-name s)
        (school-tuition s)))
 
-; ListOfSchool is one of:
-; - empty
-; - (cons School ListOfSchool)
-; interp. a list of schools
+;; ListOfSchool is one of:
+;; - empty
+;; - (cons School ListOfSchool)
+;; interp. a list of schools
 #;
 (define (fn-for-los los)
   (cond [(empty? los) (...)]
@@ -55,10 +55,10 @@
               (fn-for-los (rest los)))]))
 
 
-; Function definitions
+;; Function definitions
 
-; School -> Image
-; Produces a single bar for the given school
+;; School -> Image
+;; Produces a single bar for the given school
 
 (define (make-bar s)
   (overlay/align
@@ -67,8 +67,8 @@
    (rectangle BAR-WIDTH (* (school-tuition s) Y-SCALE) "outline" BAR-OUTLINE-COLOR)
    (rectangle BAR-WIDTH (* (school-tuition s) Y-SCALE) "solid" BAR-COLOR)))
 
-; ListOfSchool -> Image
-; Produces the bar chart showing names and tuition of consumed schools
+;; ListOfSchool -> Image
+;; Produces the bar chart showing names and tuition of consumed schools
 
 (define (bar-chart los)
   (cond [(empty? los) (square 0 "solid" "black")]
@@ -77,7 +77,7 @@
                        (bar-chart (rest los)))]))
 
 
-; Tests
+;; Tests
 
 (define S1 (make-school "S1" 6000))
 (define S2 (make-school "S2" 9000))
@@ -117,5 +117,5 @@
                (rectangle BAR-WIDTH (* 6000 Y-SCALE) "outline" BAR-OUTLINE-COLOR)
                (rectangle BAR-WIDTH (* 6000 Y-SCALE) "solid" BAR-COLOR)))
 
-; Uncomment the below line to see the demo
+;; Uncomment the below line to see the demo
 (bar-chart (cons S1 (cons S2 (cons S3 (cons S4 (cons S5 empty))))))

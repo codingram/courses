@@ -9,8 +9,8 @@ Note that there is a primitive function, odd?, that produces true
 if a natural number is odd. |#
 
 
-; Natural -> ListOfNatural
-; Produces the list of odd natural number from n up to and including 1
+;; Natural -> ListOfNatural
+;; Produces the list of odd natural number from n up to and including 1
 
 (define (odd-from-n n)
   (cond [(zero? n) empty]
@@ -20,7 +20,7 @@ if a natural number is odd. |#
             (odd-from-n (sub1 n)))]))
 
 
-; Tests
+;; Tests
 
 (check-expect (odd-from-n 0) empty)
 (check-expect (odd-from-n 1) (cons 1 empty))

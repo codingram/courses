@@ -7,19 +7,19 @@
 
 
 (define-struct node (key value left right))
-; Node is (make-node Natural String BST BST)
-; BST (Binary Search Tree) is one of:
-; - false
-; - (make-node Natural String BST BST)
-; interp. false means no BST, or empty BST
-;         key and value is the node key and node value
-;         left and right are left and right subtree from node
-; INVARIANT: for a given node:
-;   key > all keys in its left child
-;   key < all keys in its right child
-;   the same key never appears twice in the tree
+;; Node is (make-node Natural String BST BST)
+;; BST (Binary Search Tree) is one of:
+;; - false
+;; - (make-node Natural String BST BST)
+;; interp. false means no BST, or empty BST
+;;         key and value is the node key and node value
+;;         left and right are left and right subtree from node
+;; INVARIANT: for a given node:
+;;   key > all keys in its left child
+;;   key < all keys in its right child
+;;   the same key never appears twice in the tree
 
-; Examples:
+;; Examples:
 (define BST0 empty)
 (define BST1 (make-node 1 "a" false false))
 (define BST3 (make-node 3 "b" false false))

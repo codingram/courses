@@ -2,10 +2,10 @@
 ;; about the language level of this file in a form that our tools can easily process.
 #reader(lib "htdp-beginner-reader.ss" "lang")((modname arithmetic-expression) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
 
-; PROBLEM:
-;
-; Write the BSL expression that represents the arithmetic expression (7 - 2) * 4 which equals 20. 
-; Do not just write 20! Instead write BSL expression that clearly mirrors  (7 - 2) * 4.
+;; PROBLEM:
+;;
+;; Write the BSL expression that represents the arithmetic expression (7 - 2) * 4 which equals 20. 
+;; Do not just write 20! Instead write BSL expression that clearly mirrors  (7 - 2) * 4.
 
 
 (* (- 7 2) 4)

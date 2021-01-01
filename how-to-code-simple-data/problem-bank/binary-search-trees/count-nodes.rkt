@@ -1,28 +1,28 @@
 #lang htdp/bsl
 
 
-; PROBLEM:
-;
-; Design the function count-nodes, which consumes BST and produces a
-; natural number which is the total number of nodes in the BST. An
-; empty tree (false) has 0 nodes.
+;; PROBLEM:
+;;
+;; Design the function count-nodes, which consumes BST and produces a
+;; natural number which is the total number of nodes in the BST. An
+;; empty tree (false) has 0 nodes.
 
 
-; Data definitions:
+;; Data definitions:
 
 
 (define-struct node (key val left right))
-; A BST (Binary Search Tree) is one of:
-;  - false
-;  - (make-node Integer String BST BST)
-; interp. false means no BST, or empty BST
-;         key is the node key
-;         val is the node val
-;         left and right are left and right subtrees
-; INVARIANT: for a given node:
-;     key is > all keys in its left  child
-;     key is < all keys in its right child
-;     the same key never appears twice in the tree
+;; A BST (Binary Search Tree) is one of:
+;;  - false
+;;  - (make-node Integer String BST BST)
+;; interp. false means no BST, or empty BST
+;;         key is the node key
+;;         val is the node val
+;;         left and right are left and right subtrees
+;; INVARIANT: for a given node:
+;;     key is > all keys in its left  child
+;;     key is < all keys in its right child
+;;     the same key never appears twice in the tree
 
 (define BST0 false)
 (define BST1 (make-node 1 "abc" false false))
@@ -43,18 +43,18 @@
               (fn-for-bst (node-left t))
               (fn-for-bst (node-right t)))]))
 
-; Template rules used:
-;  - one of: 2 cases
-;  - atomic-distinct: false
-;  - compound: (make-node Integer String BST BST)
-;  - self reference: (node-left t) has type BST
-;  - self reference: (node-right t) has type BST
+;; Template rules used:
+;;  - one of: 2 cases
+;;  - atomic-distinct: false
+;;  - compound: (make-node Integer String BST BST)
+;;  - self reference: (node-left t) has type BST
+;;  - self reference: (node-right t) has type BST
 
 
-; Function
+;; Function
 
-; BST -> Natural
-; Produces the number of nodes present in the given tree
+;; BST -> Natural
+;; Produces the number of nodes present in the given tree
 
 (define (count-nodes tree)
   (cond [(false? tree) 0]
@@ -64,7 +64,7 @@
             (count-nodes (node-right tree)))]))
 
 
-; Tests
+;; Tests
 
 (check-expect (count-nodes BST0) 0)
 (check-expect (count-nodes BST1) 1)

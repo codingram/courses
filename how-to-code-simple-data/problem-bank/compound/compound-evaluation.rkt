@@ -1,8 +1,8 @@
 #lang htdp/bsl
 
-; PROBLEM:
-;
-; Given the following definitions:
+;; PROBLEM:
+;;
+;; Given the following definitions:
 
 (define-struct census-data (city population))
 
@@ -12,7 +12,7 @@
    (add1 (census-data-population cd))))
 
 
-; Write down the evaluation steps for the following expression.
+;; Write down the evaluation steps for the following expression.
 
 (count-newborn (make-census-data "Vancouver" 603502))
 

@@ -26,7 +26,7 @@
 (require 2htdp/universe)
 
 
-; Constants:
+;; Constants:
 
 (define WIDTH  500)
 (define HEIGHT 500)
@@ -39,25 +39,25 @@
 (define BACKGROUND (rectangle WIDTH HEIGHT "solid" BG-COLOR))
 
 
-; Data definitions:
+;; Data definitions:
 
 (define-struct drop (x y))
-; Drop is (make-drop Integer Integer)
-; interp. A raindrop on the screen, with x and y coordinates.
+;; Drop is (make-drop Integer Integer)
+;; interp. A raindrop on the screen, with x and y coordinates.
 
 #;
 (define (fn-for-drop d)
   (... (drop-x d)
        (drop-y d)))
 
-; Template Rules used:
-; - compound: 2 fields
+;; Template Rules used:
+;; - compound: 2 fields
 
 
-; ListOfDrop is one of:
-;  - empty
-;  - (cons Drop ListOfDrop)
-; interp. a list of drops
+;; ListOfDrop is one of:
+;;  - empty
+;;  - (cons Drop ListOfDrop)
+;; interp. a list of drops
 
 #;
 (define (fn-for-lod lod)
@@ -66,18 +66,18 @@
          (... (fn-for-drop (first lod))
               (fn-for-lod (rest lod)))]))
 
-; Template Rules used:
-; - one-of: 2 cases
-; - atomic distinct: empty
-; - compound: (cons Drop ListOfDrop)
-; - reference: (first lod) is Drop
-; - self reference: (rest lod) is ListOfDrop
+;; Template Rules used:
+;; - one-of: 2 cases
+;; - atomic distinct: empty
+;; - compound: (cons Drop ListOfDrop)
+;; - reference: (first lod) is Drop
+;; - self reference: (rest lod) is ListOfDrop
 
 
-; Functions:
+;; Functions:
 
-; ListOfDrop -> ListOfDrop
-; start rain program by evaluating (main empty)
+;; ListOfDrop -> ListOfDrop
+;; start rain program by evaluating (main empty)
 
 (define (main lod)
   (big-bang lod
@@ -86,22 +86,22 @@
             (to-draw  render-drops))) ; ListOfDrop -> Image
 
 
-; ListOfDrop Integer Integer MouseEvent -> ListOfDrop
-; if mevt is "button-down" add a new drop at that position
+;; ListOfDrop Integer Integer MouseEvent -> ListOfDrop
+;; if mevt is "button-down" add a new drop at that position
 
 (define (handle-mouse lod x y mevt)
   (cond [(mouse=? mevt "button-down") (cons (make-drop x y) lod)]
         [else lod]))
 
 
-; ListOfDrop -> ListOfDrop
-; produce filtered and ticked list of drops
+;; ListOfDrop -> ListOfDrop
+;; produce filtered and ticked list of drops
 
 (define (next-drops lod)
   (move-drops (filter-drops lod)))
 
-; ListOfDrop -> ListOfDrop
-; Remove the drops which are outside the BACKGROUND
+;; ListOfDrop -> ListOfDrop
+;; Remove the drops which are outside the BACKGROUND
 
 (define (filter-drops lod)
   (cond [(empty? lod) empty]
@@ -110,14 +110,14 @@
            (filter-drops (rest lod))
            (cons (first lod) (filter-drops (rest lod))))]))
 
-; Drop -> Boolean
-; Determines whether the drop is outside the BACKGROUND
+;; Drop -> Boolean
+;; Determines whether the drop is outside the BACKGROUND
 
 (define (is-drop-outside? d)
   (>= (drop-y d) (+ HEIGHT (/ DROP-HEIGHT 2))))
 
-; ListOfDrop -> ListOfDrop
-; Move the y coordinate of all the drops at DROP-SPEED
+;; ListOfDrop -> ListOfDrop
+;; Move the y coordinate of all the drops at DROP-SPEED
 
 (define (move-drops lod)
   (cond [(empty? lod) empty]
@@ -125,14 +125,14 @@
          (cons (move-single-drop (first lod))
                (move-drops (rest lod)))]))
 
-; Drop -> Drop
-; Move a single drop by DROP-SPEED
+;; Drop -> Drop
+;; Move a single drop by DROP-SPEED
 
 (define (move-single-drop d)
   (make-drop (drop-x d) (+ (drop-y d) DROP-SPEED)))
 
-; ListOfDrop -> Image
-; Render the drops onto BACKGROUND
+;; ListOfDrop -> Image
+;; Render the drops onto BACKGROUND
 
 (define (render-drops lod)
   (cond [(empty? lod) BACKGROUND]
@@ -140,16 +140,16 @@
          (place-drop-on (first lod)
                         (render-drops (rest lod)))]))
 
-; Drop Image -> Image
-; Produces an image with the given drop on it
+;; Drop Image -> Image
+;; Produces an image with the given drop on it
 
 (define (place-drop-on d img)
   (place-image WATER-DROP
                (drop-x d) (drop-y d) img))
 
 
-; Tests
-; D - Drops, ND - Next drops
+;; Tests
+;; D - Drops, ND - Next drops
 
 (define D1 (make-drop 0 0))
 (define ND1 (make-drop 0 DROP-SPEED))
@@ -205,5 +205,5 @@
 (check-expect (move-single-drop D2) ND2)
 (check-expect (move-single-drop D3) ND3)
 
-; Uncomment the below line to start the program
-; (main empty)
+;; Uncomment the below line to start the program
+;; (main empty)

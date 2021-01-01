@@ -23,7 +23,7 @@
 (require 2htdp/image)
 
 
-; Constants
+;; Constants
 
 (define CELL-WIDTH 200)
 (define CELL-HEIGHT 30)
@@ -31,13 +31,13 @@
 (define TEXT-COLOR "white")
 
 
-; Data Definitions
+;; Data Definitions
 
 (define-struct player (name team))
-; Player is (make-player String Natural[1,2])
-; interp. a dodgeball player.
-;   (make-player s t) represents the player named s
-;   who plays on team t
+;; Player is (make-player String Natural[1,2])
+;; interp. a dodgeball player.
+;;   (make-player s t) represents the player named s
+;;   who plays on team t
 
 #;
 (define (fn-for-player p)
@@ -45,10 +45,10 @@
        (player-team p)))
 
 
-; ListOfPlayer is one of:
-; - empty
-; - (cons Player ListOfPlayer)
-; interp.  A list of players.
+;; ListOfPlayer is one of:
+;; - empty
+;; - (cons Player ListOfPlayer)
+;; interp.  A list of players.
 #;
 (define (fn-for-lop lop)
   (cond [(empty? lop) (...)]
@@ -57,10 +57,10 @@
               (fn-for-lop (rest lop)))]))
 
 
-; ListOfString is one of:
-; - empty
-; - (cons String ListOfString)
-; interp. a list of strings
+;; ListOfString is one of:
+;; - empty
+;; - (cons String ListOfString)
+;; interp. a list of strings
 #;
 (define (fn-for-los los)
   (cond [(empty? los) (...)]
@@ -69,7 +69,7 @@
               (fn-for-los (rest los)))]))
 
 
-; Functions
+;; Functions
 
 #| PROBLEM 1:
  |
@@ -78,8 +78,8 @@
  | players that are on team t. |#
 
 
-; ListOfPlayer Natural -> ListOfPlayer
-; Produces the list of players which are on team t[1, 2]
+;; ListOfPlayer Natural -> ListOfPlayer
+;; Produces the list of players which are on team t[1, 2]
 
 (define (select-players lop t)
   (cond [(empty? lop) empty]
@@ -88,8 +88,8 @@
              (cons (first lop) (select-players (rest lop) t))
              (select-players (rest lop) t))]))
 
-; Player -> Boolean
-; Determines whether the player is in team t or not
+;; Player -> Boolean
+;; Determines whether the player is in team t or not
 
 (define (on-team? p t)
   (= t (player-team p)))
@@ -105,23 +105,23 @@
  | and its helper, render-cell. You will need to use these functions
  | when solving this problem. |#
 
-; ListOfPlayer -> Image
-; Render a game roster from the given list of players
+;; ListOfPlayer -> Image
+;; Render a game roster from the given list of players
 
 (define (render-roster lop)
   (beside/align "top"
                 (render-team (select-players lop 1) 1)
                 (render-team (select-players lop 2) 2)))
 
-; ListOfPlayer Natural[1, 2] -> Image
-; Produces the image column for given list of players for the provided team t
+;; ListOfPlayer Natural[1, 2] -> Image
+;; Produces the image column for given list of players for the provided team t
 
 (define (render-team lop t)
   (above (render-cell (string-append "Team " (number->string t)))
          (render-los (player-names lop))))
 
-; ListOfPlayer -> ListOfString
-; Produces a list of string (player names) from list of players
+;; ListOfPlayer -> ListOfString
+;; Produces a list of string (player names) from list of players
 
 (define (player-names lop)
   (cond [(empty? lop) empty]
@@ -129,8 +129,8 @@
          (cons (player-name (first lop))
                (player-names (rest lop)))]))
 
-; ListOfString -> Image
-; Render a list of strings as a column of cells.
+;; ListOfString -> Image
+;; Render a list of strings as a column of cells.
 
 (define (render-los los)
   (cond [(empty? los) empty-image]
@@ -138,8 +138,8 @@
          (above (render-cell (first los))
                 (render-los (rest los)))]))
 
-; String -> Image
-; Render a cell of the game table
+;; String -> Image
+;; Render a cell of the game table
 
 (define (render-cell s)
   (overlay
@@ -147,7 +147,7 @@
    (rectangle CELL-WIDTH CELL-HEIGHT "outline" TEXT-COLOR)))
 
 
-; Tests
+;; Tests
 
 (define P11 (make-player "Samael" 1))
 (define P12 (make-player "John" 1))
@@ -244,7 +244,7 @@
                (text "Team 1" TEXT-SIZE TEXT-COLOR)
                (rectangle CELL-WIDTH CELL-HEIGHT "outline" TEXT-COLOR)))
 
-; Uncomment the below line to run the program
+;; Uncomment the below line to run the program
 #| (render-roster (cons P11
                      (cons P12
                            (cons P13

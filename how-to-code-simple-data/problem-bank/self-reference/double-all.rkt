@@ -1,15 +1,15 @@
 #lang htdp/bsl
 
-; Data definitions:
+;; Data definitions:
 
-; Remember the data definition for a list of numbers we designed in Lecture 5f:
-; (if this data definition does not look familiar, please review the lecture)
+;; Remember the data definition for a list of numbers we designed in Lecture 5f:
+;; (if this data definition does not look familiar, please review the lecture)
 
 
-; ListOfNumber is one of:
-;  - empty
-;  - (cons Number ListOfNumber)
-; interp. a list of numbers
+;; ListOfNumber is one of:
+;;  - empty
+;;  - (cons Number ListOfNumber)
+;; interp. a list of numbers
 
 #;
 (define (fn-for-lon lon)
@@ -18,22 +18,22 @@
          (... (first lon)
               (fn-for-lon (rest lon)))]))
 
-; Template rules used:
-;  - one of: 2 cases
-;  - atomic distinct: empty
-;  - compound: (cons Number ListOfNumber)
-;  - self-reference: (rest lon) is ListOfNumber
+;; Template rules used:
+;;  - one of: 2 cases
+;;  - atomic distinct: empty
+;;  - compound: (cons Number ListOfNumber)
+;;  - self-reference: (rest lon) is ListOfNumber
 
 
-; Functions:
+;; Functions:
 
-; PROBLEM:
-;
-; Design a function that consumes a list of numbers and doubles every number
-; in the list. Call it double-all.
+;; PROBLEM:
+;;
+;; Design a function that consumes a list of numbers and doubles every number
+;; in the list. Call it double-all.
 
-; ListOfNumber -> ListOfNumber
-; Returns the list with every number doubled
+;; ListOfNumber -> ListOfNumber
+;; Returns the list with every number doubled
 
 (define (double-all lon)
   (cond [(empty? lon) empty]
@@ -42,7 +42,7 @@
               (double-all (rest lon)))]))
 
 
-; Tests
+;; Tests
 
 (define LON1 empty)
 (define LON2 (cons 10 empty))

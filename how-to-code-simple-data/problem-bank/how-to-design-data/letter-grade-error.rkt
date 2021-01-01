@@ -2,16 +2,16 @@
 ;; about the language level of this file in a form that our tools can easily process.
 #reader(lib "htdp-beginner-reader.ss" "lang")((modname letter-grade-error) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
 
-; =====================================================================
-; PROBLEM:
-;
-; You're working with a revised version of the LetterGrade data definition that
-; you saw in lecture to design a function that produces true if a given LetterGrade 
-; represents a passing grade in a course. You're working through HtDF and have 
-; completed the signature, purpose, stub and examples, but you're getting an 
-; error message.  Uncomment the code in the box below and revise it until 
-; all the tests run (even though several tests still fail).
-; =====================================================================
+;; =====================================================================
+;; PROBLEM:
+;;
+;; You're working with a revised version of the LetterGrade data definition that
+;; you saw in lecture to design a function that produces true if a given LetterGrade 
+;; represents a passing grade in a course. You're working through HtDF and have 
+;; completed the signature, purpose, stub and examples, but you're getting an 
+;; error message.  Uncomment the code in the box below and revise it until 
+;; all the tests run (even though several tests still fail).
+;; =====================================================================
 
 ;; LetterGrade is one of: 
 ;;  - "A"

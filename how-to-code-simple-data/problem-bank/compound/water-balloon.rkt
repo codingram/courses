@@ -32,7 +32,7 @@
 (require 2htdp/universe)
 (require "images/water-balloon.rkt")
 
-; Constants
+;; Constants
 
 (define WIDTH 800)
 (define HEIGHT 300)
@@ -43,17 +43,17 @@
 (define ANGULAR-SPEED 2)
 
 
-; Data definitions
+;; Data definitions
 
 (define-struct wb (pos angle))
-; Wb is (make-wb Natural Natural[0, 360))
-; interp. x coordinate and the angle for the water balloon
+;; Wb is (make-wb Natural Natural[0, 360))
+;; interp. x coordinate and the angle for the water balloon
 
 
-; Function definitions
+;; Function definitions
 
-; Wb -> Wb
-; main function of the program, starts with (main (make-wb 0 0))
+;; Wb -> Wb
+;; main function of the program, starts with (main (make-wb 0 0))
 
 (define (main b)
   (big-bang
@@ -63,18 +63,18 @@
     (to-draw render-balloon)      ; Wb -> Image
     (on-key handle-key)))         ; Wb KeyEvent -> Wb
 
-; Wb -> Wb
-; Increases the x coordinate and angle for the water balloon according to
-; LINEAR-SPEED and ANGULAR-SPEED
+;; Wb -> Wb
+;; Increases the x coordinate and angle for the water balloon according to
+;; LINEAR-SPEED and ANGULAR-SPEED
 
 (define (move-balloon b)
   (make-wb
     (+ (wb-pos b) LINEAR-SPEED)
     (+ (wb-angle b) (- ANGULAR-SPEED))))
 
-; Wb -> Image
-; Produces the image of the water balloon on BACKGROUND according to the
-; data provided
+;; Wb -> Image
+;; Produces the image of the water balloon on BACKGROUND according to the
+;; data provided
 
 (define (render-balloon b)
   (place-image
@@ -82,16 +82,16 @@
     (wb-pos b) BALLOON-Y
     BACKGROUND))
 
-; Wb KeyEvent -> Wb
-; Resets the water balloon to its initial state when spacebar is pressed
-; otherwise it does nothing
+;; Wb KeyEvent -> Wb
+;; Resets the water balloon to its initial state when spacebar is pressed
+;; otherwise it does nothing
 
 (define (handle-key b ke)
   (cond [(key=? ke " ") (make-wb 0 0)]
         [else b]))
 
 
-; Tests
+;; Tests
 
 (define WB1 (make-wb 0 0))
 (define WB2 (make-wb 100 -100))
@@ -112,5 +112,5 @@
 (check-expect (handle-key WB2 "a") WB2)
 (check-expect (handle-key WB3 " ") (make-wb 0 0))
 
-; Uncomment the below line to run the program
-; (main (make-wb 0 0))
+;; Uncomment the below line to run the program
+;; (main (make-wb 0 0))
