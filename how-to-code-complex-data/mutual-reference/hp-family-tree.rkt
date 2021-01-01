@@ -18,8 +18,9 @@
 ;; wiki, which contains all necessary information for the other problems.  You
 ;; will use this data definition throughout the rest of the homework.
 
-;; Data definitions
-;; ================
+
+;; ==================
+;; Data definitions:
 
 (define-struct wizard (name wand patronus children))
 ;; Wizard is (make-wizard String String String ListOfWizard)
@@ -80,6 +81,8 @@
                   (make-wizard "Albus" "" "" empty)
                   (make-wizard "Lily" "" "" empty))))))
 
+
+;; ============
 ;; Templates:
 #;
 (define (fn-for-wizard wizard)
@@ -127,7 +130,8 @@
                   (patronus-list-of-wizard (rest list-of-wizard)))]))
 
 
-;; Tests
+;; ======
+;; Tests:
 
 (check-expect (patronus-list-of-wizard empty) empty)
 (check-expect (patronus-wizard (make-wizard "name" "wand" "patronus" empty))
@@ -181,7 +185,8 @@
                (same-wand-list-of-wizard wand (rest list-of-wizard)))]))
 
 
-;; Tests
+;; =======
+;; Tests:
 
 (check-expect (same-wand-list-of-wizard "x" empty) empty)
 (check-expect (same-wand-wizard "x" (make-wizard "a" "b" "c" empty)) empty)

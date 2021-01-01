@@ -11,6 +11,7 @@
 ;; arrows in the type comments.
 
 
+;; ==================
 ;; Data definitions:
 
 (define-struct person (name age kids))
@@ -40,6 +41,7 @@
               (fn-for-lop (rest lop)))]))
 
 
+;; ===========
 ;; Functions:
 
 ;; PROBLEM B:
@@ -67,7 +69,8 @@
            (find-list-of-person name (rest list-of-person)))]))
 
 
-;; Tests
+;; =======
+;; Tests:
 
 (check-expect (find-person "P2" P1) false)
 (check-expect (find-list-of-person "P1" empty) false)

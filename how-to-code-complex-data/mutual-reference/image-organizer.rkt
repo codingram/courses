@@ -62,6 +62,8 @@
 ;; Write out the templates for Dir, ListOfDir and ListOfImage. Identify for each
 ;; call to a template function which arrow from part A it corresponds to.
 
+
+;; ===========
 ;; Templates:
 #;
 (define (fn-for-dir dir)
@@ -119,7 +121,9 @@
 (define (image-area image)
   (* (image-width image) (image-height image)))
 
-;; Tests
+
+;; =======
+;; Tests:
 
 (check-expect (image-area I1) 100)
 (check-expect (total-size-dir D4) 0)
@@ -163,7 +167,8 @@
                  (render-list-of-image (rest list-of-image)))]))
 
 
-;; Tests
+;; =======
+;; Tests:
 
 (check-expect (render-list-of-image empty) empty-image)
 (check-expect (render-list-of-dir empty) empty-image)

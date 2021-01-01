@@ -2,9 +2,8 @@
 
 (require 2htdp/image)
 
-
-;; Data definitions:
 ;; =================
+;; Data definitions:
 
 (define-struct element (name data sub-elements))
 ;; Element is (make-element String Integer ListOfElement)
@@ -25,8 +24,8 @@
 (define D6 (make-element "D6" 0 (list D4 D5)))
 
 
-;; Templates:
 ;; ==========
+;; Templates:
 #;
 (define (fn-for-element element)
   (... (element-name element)
@@ -40,11 +39,10 @@
                (fn-for-list-of-element (rest list-of-element)))]))
 
 
-;; Functions:
 ;; ==========
+;; Functions:
 
 ;; PROBLEM
-;; =======
 ;;
 ;; Design a function that consumes Element and produces the sum of all the file data in
 ;; the tree.
@@ -67,7 +65,8 @@
              (sum-data-list-of-element (rest list-of-element)))]))
 
 
-;; Tests
+;; =======
+;; Tests:
 
 (check-expect (sum-data-element F1) 1)
 (check-expect (sum-data-list-of-element empty) 0)
@@ -77,7 +76,6 @@
 
 
 ;; PROBLEM
-;; =======
 ;;
 ;; Design a function that consumes Element and produces a list of the names of all the elements in
 ;; the tree.
@@ -100,7 +98,8 @@
                   (all-names-list-of-element (rest list-of-element)))]))
 
 
-;; Tests
+;; =======
+;; Tests:
 
 (check-expect (all-names-element F1) (list "F1"))
 (check-expect (all-names-list-of-element empty) empty)
@@ -111,7 +110,6 @@
 
 
 ;; PROBLEM
-;; =======
 ;;
 ;; Design a function that consumes String and Element and looks for a data element with the given
 ;; name. If it finds that element it produces the data, otherwise it produces false.
@@ -135,7 +133,8 @@
             (find-name-list-of-element name (rest list-of-element)))]))
 
 
-;; Tests
+;; =======
+;; Tests:
 
 (check-expect (find-name-list-of-element "F1" empty) false)
 (check-expect (find-name-element "F1" F2) false)
@@ -151,7 +150,6 @@
 
 
 ;; PROBLEM
-;; =======
 ;;
 ;; Design a function that consumes Element and produces a rendering of the tree. For example:
 ;;
@@ -165,7 +163,8 @@
 ;;   - And... be sure to USE the recipe. Not just follow it, but let it help you.
 ;;     For example, work out a number of examples BEFORE you try to code the function.
 
-;; Constants
+;; ==========
+;; Constants:
 
 (define TEXT-SIZE 18)
 (define TEXT-COLOR "white")
@@ -185,7 +184,8 @@
                   (render-tree-list-of-element (rest list-of-element)))]))
 
 
-;; Tests
+;; ========
+;; Tests:
 
 (check-expect (render-tree-list-of-element empty) empty-image)
 (check-expect (render-tree-element F1)
