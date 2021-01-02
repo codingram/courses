@@ -1,4 +1,4 @@
-#lang htdp/bsl
+#lang htdp/isl
 
 
 ;; The following program implements an arbitrary-arity descendant family
@@ -52,29 +52,30 @@
 ;; found the function should produce false.
 
 ;; String Person -> Natural or false
-;; String ListOfPerson -> Natural or false
 ;; Finds the name in the given Person and its children and returns its age if found, false otherwise.
 
 
 (define (find-person name person)
-  (if (string=? name (person-name person))
-    (person-age person)
-    (find-list-of-person name (person-kids person))))
-
-(define (find-list-of-person name list-of-person)
-  (cond [(empty? list-of-person) false]
-        [else
-         (if (not (false? (find-person name (first list-of-person))))
-           (find-person name (first list-of-person))
-           (find-list-of-person name (rest list-of-person)))]))
+  (local
+    [(define (person-helper name person)
+       (if (string=? name (person-name person))
+         (person-age person)
+         (list-of-person-helper name (person-kids person))))
+     (define (list-of-person-helper name list-of-person)
+       (cond [(empty? list-of-person) false]
+             [else
+               (local
+                 [(define try (person-helper name (first list-of-person)))]
+                 (if (not (false? try))
+                   try
+                   (list-of-person-helper name (rest list-of-person))))]))]
+    (person-helper name person)))
 
 
 ;; =======
 ;; Tests:
 
 (check-expect (find-person "P2" P1) false)
-(check-expect (find-list-of-person "P1" empty) false)
-(check-expect (find-list-of-person "P1" (list P3)) false)
 (check-expect (find-person "P1" P1) 5)
 (check-expect (find-person "P1" P2) 5)
 (check-expect (find-person "P3" P4) 15)
