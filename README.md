@@ -3,9 +3,12 @@
 ***List of all the courses and their respective directories in this repository***
 
 ### How to Code: Complex Data - [Course Link](https://courses.edx.org/courses/course-v1:UBCx+HtC2x+2T2017/course/) | [Directory](./how-to-code-complex-data/)
-  - Mutual Reference - [Directory](./how-to-code-complex-data/mutual-reference/)
-  - 2 one-of - [Directory](./how-to-code-complex-data/2-one-of/)
-  - Local - [Directory](./how-to-code-complex-data/local/)
+  - Quiz - [Directory](./how-to-code-complex-data/quiz/)
+  - Problem bank:
+    - Mutual Reference - [Directory](./how-to-code-complex-data/problem-bank/mutual-reference/)
+    - 2 one-of - [Directory](./how-to-code-complex-data/problem-bank/2-one-of/)
+    - Local - [Directory](./how-to-code-complex-data/problem-bank/local/)
+    - Abstraction - [Directory](./how-to-code-complex-data/problem-bank/abstraction/)
 
 ### How to Code: Simple Data - [Course Link](https://courses.edx.org/courses/course-v1:UBCx+HtC1x+2T2017/course/) | [Directory](./how-to-code-simple-data/)
   - Design Quiz - [Directory](./how-to-code-simple-data/design-quiz/)
