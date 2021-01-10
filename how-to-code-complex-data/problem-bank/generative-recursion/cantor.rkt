@@ -124,6 +124,18 @@
   (rectangle width BAR-HEIGHT 'solid BAR-COLOR))
 
 
+;; ============================
+;; Termination argument:
+;;
+;; Trivial case: width of the cantor bar is less than CUTOFF
+;;
+;; Reduction step: the top bar is split into three pieces and the recursion is called
+;;                 on the width of the first and third piece
+;;
+;; Argument: As we will be reducing the width of the bar which is the argument passed
+;;           to the recursion call, at some point the width will be less than CUTOFF,
+;;           terminating the recursion
+
 ;; ========
 ;; Tests
 

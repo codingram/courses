@@ -10,6 +10,7 @@
     - Local - [Directory](./how-to-code-complex-data/problem-bank/local/)
     - Abstraction - [Directory](./how-to-code-complex-data/problem-bank/abstraction/)
     - Generative Recursion - [Directory](./how-to-code-complex-data/problem-bank/generative-recursion/)
+    - Search - [Directory](./how-to-code-complex-data/problem-bank/search/)
 
 ### How to Code: Simple Data - [Course Link](https://courses.edx.org/courses/course-v1:UBCx+HtC1x+2T2017/course/) | [Directory](./how-to-code-simple-data/)
   - Design Quiz - [Directory](./how-to-code-simple-data/design-quiz/)

@@ -111,6 +111,19 @@
                   E F img))))))])))
 
 
+;; =========================
+;; Termination argument:
+;;
+;; Trivial case: Distance between the two points p1 and p2 is less than LINE-CUTOFF
+;;
+;; Reduction step: Split the distance into three pieces and call the function on the
+;;                 the endpoints for the pieces
+;;
+;; Argument: reduction steps reduces the distance between the points which will eventually
+;;           lead to the condition of trivial case where the distance is less than the
+;;           LINE-CUTOFF, terminating the recursion
+
+
 ;; ========
 ;; Tests:
 
