@@ -1,5 +1,6 @@
 #lang htdp/asl
 
+(require racket/list)
 
 ;; This project involves the design of a program to solve the n queens puzzle.
 ;;
@@ -61,6 +62,45 @@
 ;; -------------------
 ;; Functions:
 
+;; -----------------------------------------
+;; Generate all steps to reach the solution
+;; -----------------------------------------
+
+;; Natural -> (listof Board) or false
+;; List all the steps taken to find the final solution
+
+(define (list-solution n)
+  (local
+    [
+     ; Board -> (listof Board) or false
+     (define (helper-board board)
+       (if (= (length board) n)
+         (list board)
+         (cons board (helper-list-of-board (next-boards board n)))))
+
+     ; (listof Board) -> (listof Board) or false
+     (define (helper-list-of-board list-of-board)
+       (if (empty? list-of-board)
+         (list false)
+         (let ([try (helper-board (first list-of-board))])
+           (if (not (false? (last try)))
+             try
+             (append (pop try)
+                     (helper-list-of-board (rest list-of-board)))))))]
+
+    (helper-board empty)))
+
+
+;; (listof X) -> (listof X)
+;; Returns the given list with the last element removed
+
+(define (pop lst)
+  (if (empty? lst)
+    empty
+    (take lst (sub1 (length lst)))))
+
+;; ------------------------------------------
+
 ;; Natural -> (listof Board) or false
 ;; For the given input n, return the list of board to the solution board if the solution exists
 ;; for the nqueen problem, false if there's no solution for the given n.
@@ -118,7 +158,6 @@
 ;; -------------------
 ;; Tests:
 
-(require racket/list)
 
 (check-expect (solve 3) #f)
 (check-expect (last (solve 4)) '(14 8 7 1))
