@@ -166,10 +166,13 @@
   (local [(define (helper-path path passed?)
             (if (string=? (path-room path) dest)
               passed?
-              (helper-lop (path-nexts path)
-                          (if (false? passed?)
-                            (string=? (path-room path) via)
-                            true))))
+              (helper-lop
+                (path-nexts path)
+                  ; We only need to check whether the current path is 'via'
+                  ; if we haven't passed through it yet.
+                  (if (false? passed?)
+                    (string=? (path-room path) via)
+                    true))))
           (define (helper-lop lop passed?)
             (cond [(empty? lop) "never"]
                   [else
