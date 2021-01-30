@@ -13,6 +13,7 @@
     - Search - [Directory](./how-to-code-complex-data/problem-bank/search/)
     - Accumulators - [Directory](./how-to-code-complex-data/problem-bank/accumulators/)
     - Graphs - [Directory](./how-to-code-complex-data/problem-bank/graphs/)
+  - Final Project - [Teaching Assistants Schedule Search](./how-to-code-complex-data/ta-solver.rkt)
 
 ### How to Code: Simple Data - [Course Link](https://courses.edx.org/courses/course-v1:UBCx+HtC1x+2T2017/course/) | [Directory](./how-to-code-simple-data/)
   - Design Quiz - [Directory](./how-to-code-simple-data/design-quiz/)
