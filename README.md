@@ -32,6 +32,21 @@
 
 ### The Missing Semester of Your CS Education (2020) - [Course Link](https://missing.csail.mit.edu/) | [Directory](./missing-semester/)
 
+### Introduction to Computer Science and Programming using Python - [edX Link](https://www.edx.org/course/introduction-to-computer-science-and-programming-7) | [MIT OCW Link](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/) | [Directory](./MITx6001x/)
+  - Project - [Terminal Games](https://github.com/dhruvmanila/terminal-games): Scrabble and hangman played directly on the terminal.
+  - edX - [Directory](./mitx6001x/edx/)
+    - Pset 1 - [Directory](./mitx6001x/edx/ps1/)
+    - Pset 2 - [Directory](./mitx6001x/edx/ps2/)
+    - Pset 3: Hangman - [Directory](./mitx6001x/edx/ps3_hangman/)
+    - Pset 4: Wordgame - [Directory](./mitx6001x/edx/ps4_wordgame/)
+    - Pset 5: Ceaser Cipher - [Directory](./mitx6001x/edx/ps5_ceaser_cipher/)
+  - MIT OpenCourseWare - [Directory](./MITx6001x/ocw/)
+    - Pset 1 - [Directory](./MITx6001x/ocw/ps1/)
+    - Pset 2: Hangman - [Directory](./MITx6001x/ocw/ps2_hangman/)
+    - Pset 3: Scrabble - [Directory](./MITx6001x/ocw/ps3_scrabble/)
+    - Pset 4: Ceaser Cipher - [Directory](./MITx6001x/ocw/ps4_ceaser_cipher/)
+    - Pset 5: RSS Feed - [Directory](./MITx6001x/ocw/ps5_rss_feed/)
+
 ### Python for Everybody - [Course Link](https://www.coursera.org/specializations/python) | [Alternate Link](https://www.py4e.com/) | [Directory](./python-for-everybody/)
 
 ### freeCodeCamp - [Course Link](https://www.freecodecamp.org) | [Directory](./freeCodeCamp/)
