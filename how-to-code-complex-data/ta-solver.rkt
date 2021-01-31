@@ -362,3 +362,20 @@
                (make-assignment SOBA 1)))
 
 (check-expect (schedule-tas NOODLE-TAs (list 1 2 3 4 5)) false)
+
+(check-expect (schedule-tas QUIZ-TAs-1 '(1 2 3 4 5 6 7 8 9 10 11 12)) false)
+(check-expect (schedule-tas QUIZ-TAs-2 '(1 2 3 4 5 6 7 8 9 10 11 12)) false)
+(check-expect (schedule-tas QUIZ-TAs-3 '(1 2 3 4 5 6 7 8 9 10 11 12))
+              (list
+                (make-assignment RAEANNE 12)
+                (make-assignment GRANT 11)
+                (make-assignment AASHISH 10)
+                (make-assignment DAVID 9)
+                (make-assignment DAVID 8)
+                (make-assignment ERIKA 7)
+                (make-assignment KATIE 6)
+                (make-assignment REECE 5)
+                (make-assignment ERIN 4)
+                (make-assignment GORDON 3)
+                (make-assignment GORDON 2)
+                (make-assignment RYAN 1)))

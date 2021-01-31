@@ -32,6 +32,8 @@
 
 ### The Missing Semester of Your CS Education (2020) - [Course Link](https://missing.csail.mit.edu/) | [Directory](./missing-semester/)
 
+### Python for Everybody - [Course Link](https://www.coursera.org/specializations/python) | [Alternate Link](https://www.py4e.com/) | [Directory](./python-for-everybody/)
+
 ### freeCodeCamp - [Course Link](https://www.freecodecamp.org) | [Directory](./freeCodeCamp/)
   - Responsive Web Design Projects
     - Build a tribute page - [Albert Einstein](./freeCodeCamp/tribute_page/)
