@@ -2,14 +2,14 @@
 
 use "hw1.sml";
 
-val test1 = (is_older ((1, 2, 3), (2, 3, 4)) = true)
-val test2 = (is_older ((2, 1, 3), (1, 2, 3)) = false)
-val test3 = (is_older ((1, 2, 3), (1, 3, 3)) = true)
-val test4 = (is_older ((1, 3, 5), (1, 2, 3)) = false)
-val test5 = (is_older ((1, 3, 5), (1, 3, 6)) = true)
-val test6 = (is_older ((1, 3, 5), (1, 3, 4)) = false)
-val test7 = (is_older ((1, 2, 3), (1, 2, 3)) = false)
-val test8 = (is_older ((1, 3, 4), (2, 3, 4)) = true)
+val test1 = is_older ((1, 2, 3), (2, 3, 4)) = true
+val test2 = is_older ((2, 1, 3), (1, 2, 3)) = false
+val test3 = is_older ((1, 2, 3), (1, 3, 3)) = true
+val test4 = is_older ((1, 3, 5), (1, 2, 3)) = false
+val test5 = is_older ((1, 3, 5), (1, 3, 6)) = true
+val test6 = is_older ((1, 3, 5), (1, 3, 4)) = false
+val test7 = is_older ((1, 2, 3), (1, 2, 3)) = false
+val test8 = is_older ((1, 3, 4), (2, 3, 4)) = true
 
 val test9 = number_in_month([], 1) = 0
 val test10 = number_in_month([(2012, 2, 28), (2013, 12, 1)], 2) = 1
@@ -80,4 +80,3 @@ val test65 = oldest([(2020, 1, 1)]) = SOME (2020, 1, 1)
 val test66 = oldest([(2020, 1, 1), (2019, 1, 1)]) = SOME (2019, 1, 1)
 val test67 = oldest([(2018, 1, 1), (2020, 1, 1)]) = SOME (2018, 1, 1)
 val test68 = oldest([(2018, 1, 1), (2015, 1, 1), (2014, 1, 1)]) = SOME (2014, 1, 1)
-
