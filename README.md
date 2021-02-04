@@ -2,6 +2,12 @@
 
 ***List of all the courses and their respective directories in this repository***
 
+## Programming Languages, Part A
+> [Course Link](https://www.coursera.org/learn/programming-languages) | [Directory](./programming-languages-a/)
+  - Week 1 - [Directory](./programming-languages-a/week1/)
+  - Week 2 - [Directory](./programming-languages-a/week2/)
+  - Week 3 - [Directory](./programming-languages-a/week3/)
+
 ## How to Code: Complex Data
 > [Course Link](https://courses.edx.org/courses/course-v1:UBCx+HtC2x+2T2017/course/) | [Directory](./how-to-code-complex-data/)
   - Quiz - [Directory](./how-to-code-complex-data/quiz/)
