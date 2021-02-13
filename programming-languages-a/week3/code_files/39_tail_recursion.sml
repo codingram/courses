@@ -8,3 +8,11 @@ fun fact2 n =
     in
         aux(n,1)
     end
+
+fun fact3 n =
+    let
+        fun aux (0,acc) = acc
+          | aux (n,acc) = aux (n-1,acc*n)
+    in
+        aux(n,1)
+    end

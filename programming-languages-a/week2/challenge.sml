@@ -78,7 +78,7 @@ fun reasonable_date (date: int * int * int) =
         fun is_leap_year (year: int) =
             year mod 400 = 0
             orelse year mod 4 = 0
-            andalso year mod 100 <> 0
+                   andalso year mod 100 <> 0
     in
         year > 0
         andalso 1 <= month

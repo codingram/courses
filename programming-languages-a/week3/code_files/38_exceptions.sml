@@ -8,7 +8,14 @@ fun hd xs =
 
 exception MyUndesirableCondition
 
+exception DivisionByZeroError of int * int
+
 exception MyOtherException of int * int
+
+fun otherdiv (x,y) =
+    if y=0
+    then raise (DivisionByZeroError (x,y))
+    else x div y
 
 fun mydiv (x,y) =
     if y=0
