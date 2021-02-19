@@ -8,6 +8,7 @@
   - Week 2 - [Directory](./programming-languages-a/week2/)
   - Week 3 - [Directory](./programming-languages-a/week3/)
   - Week 4 - [Directory](./programming-languages-a/week4/)
+  - Week 5 - [Directory](./programming-languages-a/week5/)
 
 ## How to Code: Complex Data
 > [Course Link](https://courses.edx.org/courses/course-v1:UBCx+HtC2x+2T2017/course/) | [Directory](./how-to-code-complex-data/)

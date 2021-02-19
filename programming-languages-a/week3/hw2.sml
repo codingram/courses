@@ -221,30 +221,36 @@ fun score_challenge (cards, goal) =
 (* Runs the game and returns the final score of the game after processing
  * (some or all of) the moves in order. Raises the IllegalMove exception
  * for illegal moves. *)
+(* TODO: This is incorrect. Write some tests for it and debug. *)
 fun officiate_challenge (cards, moves, goal) =
     let
         fun loop (cards, moves, held_cards) =
             case (moves, cards) of
-                ([], _) => (held_cards, goal)
+                ([], _) => held_cards
               | ((Discard card)::remaining_moves, _) =>
                 loop (cards,
                       remaining_moves,
                       remove_card (held_cards, card, IllegalMove))
-              | (Draw::remaining_moves, []) => (held_cards, goal)
-              | (Draw::remaining_moves, (suit, Ace)::remaining_cards) =>
+              | (Draw::remaining_moves, []) => held_cards
+              (* | (Draw::remaining_moves, (suit, Ace)::remaining_cards) =>
                     if sum_cards held_cards + 1 > goal
-                    then ((suit, Num 1)::held_cards, goal)
+                    then (suit, Num 1)::held_cards
                     else loop (remaining_cards,
                                remaining_moves,
-                               (suit, Num 1)::held_cards)
+                               (suit, Num 1)::held_cards) *)
               | (Draw::remaining_moves, first::remaining_cards) =>
-                    if sum_cards (first::held_cards) > goal
-                    then (first::held_cards, goal)
+                let val min_sum = case first of
+                                      (_, Ace) => sum_cards held_cards + 1
+                                    | _ => sum_cards (first::held_cards)
+                in
+                    if min_sum > goal
+                    then first::held_cards
                     else loop (remaining_cards,
                                remaining_moves,
                                first::held_cards)
+                end
     in
-        score_challenge (loop (cards, moves, []))
+        score_challenge (loop (cards, moves, []), goal)
     end
 
 

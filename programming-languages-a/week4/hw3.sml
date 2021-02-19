@@ -151,7 +151,7 @@ fun match (_, Wildcard) = SOME []
   | match (Unit, UnitP) = SOME []
   | match (Const c1, ConstP c2) = if c1 = c2 then SOME [] else NONE
   | match (Tuple vs, TupleP ps) =
-    (all_answers match (ListPair.zipEq (vs, ps)) handle UnequalLenghts => NONE)
+    (all_answers match (ListPair.zipEq (vs, ps)) handle UnequalLengths => NONE)
   | match (Constructor (s2, v), ConstructorP (s1, p)) =
     if s1 = s2 then match (v, p) else NONE
   | match _ = NONE
@@ -171,11 +171,11 @@ datatype typ = Anything
              | TupleT of typ list
              | Datatype of string
 
-                               
+
 (* Exception to be raised if the types are invalid. *)
 exception TypeError
 
-              
+
 (* Returns SOME t where t is the common type for the types of given patterns,
  * NONE if there are either no common type or incorrect type or unequal
  * number for a tuple. *)
@@ -187,7 +187,7 @@ fun typecheck_patterns (cst, ps) =
           | common_type (IntT, IntT) = IntT
           | common_type (TupleT t1, TupleT t2) =
             TupleT (map common_type (ListPair.zipEq (t1, t2)))
-          | common_type (Datatype d1, Datatype d2) = 
+          | common_type (Datatype d1, Datatype d2) =
             if d1 = d2 then Datatype d1 else raise TypeError
           | common_type _ = raise TypeError
 
@@ -207,7 +207,7 @@ fun typecheck_patterns (cst, ps) =
                     NONE => raise TypeError
                   | SOME (_, dt, _) => Datatype dt
             end
-                
+
         fun pattern_type UnitP = UnitT
           | pattern_type (ConstP _) = IntT
           | pattern_type (TupleP tps) = TupleT (map pattern_type tps)
@@ -217,6 +217,6 @@ fun typecheck_patterns (cst, ps) =
     in
         SOME (common_type_for_types (map pattern_type ps))
         handle TypeError => NONE
-             | UnequalLenghts => NONE 
+             | UnequalLengths => NONE
     end
-                                  
+
