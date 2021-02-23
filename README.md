@@ -2,6 +2,10 @@
 
 ***List of all the courses and their respective directories in this repository***
 
+## Programming Languages, Part B
+> [Course Link](https://www.coursera.org/learn/programming-languages-part-b) | [Directory](./programming-languages-b/)
+  - Week 1 - [Directory](./programming-languages-b/week1/)
+
 ## Programming Languages, Part A
 > [Course Link](https://www.coursera.org/learn/programming-languages) | [Directory](./programming-languages-a/)
   - Week 1 - [Directory](./programming-languages-a/week1/)
