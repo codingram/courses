@@ -220,3 +220,14 @@ fun typecheck_patterns (cst, ps) =
              | UnequalLengths => NONE
     end
 
+
+(* --------------- CSE 341 problems ---------------- *)
+(* Only the problems which are different from the Coursera assignments are solved *)
+
+(* Returns the string that is like the input except every letter is capitalized
+ * and every "x" or "X" is removed. *)
+val caps_no_X_string =
+    String.implode
+    o List.map Char.toUpper
+    o List.filter (fn c => Char.toLower c <> #"x")
+    o String.explode

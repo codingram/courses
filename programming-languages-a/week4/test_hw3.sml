@@ -120,9 +120,9 @@ val test89 = first_match (Const 3) [UnitP, TupleP [], ConstP 4] = NONE
 
 
 (* ----------- Challenge problems tests -------------- *)
-                                                                      
+
 val test90 = typecheck_patterns ([], [ConstP 10, Variable "a"]) = SOME IntT
-                                                                       
+
 val test91 = typecheck_patterns
                  ([("SOME", "option", Anything),
                    ("NONE", "option", UnitT)],
@@ -130,13 +130,13 @@ val test91 = typecheck_patterns
                    Variable "a",
                    ConstructorP("SOME", Variable "x")])
              = NONE
-                   
+
 val test92 = typecheck_patterns
                  ([],
                   [TupleP [Variable "a", ConstP 10, Wildcard],
                    TupleP [Variable "b", Wildcard, ConstP 11], Wildcard])
              = SOME (TupleT [Anything, IntT, IntT])
-                    
+
 val test93 = typecheck_patterns
                  ([("Red", "color", UnitT),
                    ("Green", "color", UnitT),
@@ -144,7 +144,7 @@ val test93 = typecheck_patterns
                   [ConstructorP("Red", UnitP),
                    Wildcard])
              = SOME (Datatype "color")
-                    
+
 val test94 = typecheck_patterns
                  ([("Sedan", "auto", Datatype "color"),
                    ("Truck", "auto", TupleT [IntT, Datatype "color"]),
@@ -153,7 +153,7 @@ val test94 = typecheck_patterns
                    ConstructorP ("Truck", TupleP [Variable "b", Wildcard]),
                    Wildcard])
              = SOME (Datatype "auto")
-                    
+
 val test95 = typecheck_patterns
                  ([("Empty", "list", UnitT),
                    ("List", "list", TupleT [Anything, Datatype "list"])],
@@ -161,7 +161,7 @@ val test95 = typecheck_patterns
                    ConstructorP ("List", TupleP [ConstP 10, ConstructorP ("Empty", UnitP)]),
                    Wildcard])
              = SOME (Datatype "list")
-                    
+
 val test96 = typecheck_patterns
                  ([("Empty", "list", UnitT),
                    ("List", "list", TupleT [Anything, Datatype "list"])],
@@ -177,7 +177,7 @@ val test97 = typecheck_patterns
                    ConstructorP ("List", TupleP [ConstructorP ("Sedan", Variable "c"),
                                                  Wildcard])])
              = SOME (Datatype "list")
-                    
+
 val test98 = typecheck_patterns
                  ([],
                   [TupleP [Variable "x", Variable "y"],
@@ -189,4 +189,11 @@ val test99 = typecheck_patterns
                   [TupleP [Wildcard, Wildcard],
                    TupleP[Wildcard, TupleP[Wildcard,Wildcard]]])
              = SOME (TupleT[Anything, TupleT[Anything, Anything]])
-                            
+
+
+(* ----------- CSE 341 problems tests -------------- *)
+
+val test100 = caps_no_X_string "" = ""
+val test101 = caps_no_X_string "abc" = "ABC"
+val test102 = caps_no_X_string "xXxXXx" = ""
+val test103 = caps_no_X_string "aBxXXxdDx" = "ABDD"
