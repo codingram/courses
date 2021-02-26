@@ -65,7 +65,7 @@ use "hw2.sml";
    Our tokens will be represented by the following datatype:
 *)
 datatype token =
-           NumLit of string (* eg, number 3.14 represented as "3.14" *)
+         NumLit of string (* eg, number 3.14 represented as "3.14" *)
          | StringLit of string (* eg, "foo" *)
          | FalseTok (* false *)
          | TrueTok (* true *)
@@ -80,18 +80,18 @@ datatype token =
 (* For debugging purposes, it will be convenient to be able to print
    tokens. Here is a provided function to convert tokens to strings. *)
 fun token_to_string t =
-  case t of
-     NumLit    s =>  s
-   | StringLit s => quote_string s (* you wrote quote_string in hw2.sml *)
-   | FalseTok    => "false"
-   | TrueTok     => "true"
-   | NullTok     => "null"
-   | LBrace      => "{"
-   | RBrace      => "}"
-   | LBracket    => "["
-   | RBracket    => "]"
-   | Comma       => ","
-   | Colon       => ":"
+    case t of
+        NumLit    s =>  s
+      | StringLit s => quote_string s (* you wrote quote_string in hw2.sml *)
+      | FalseTok    => "false"
+      | TrueTok     => "true"
+      | NullTok     => "null"
+      | LBrace      => "{"
+      | RBrace      => "}"
+      | LBracket    => "["
+      | RBracket    => "]"
+      | Comma       => ","
+      | Colon       => ":"
 
 (* Here's another provided function to report lexical errors conveniently.
    ("Lexical analysis" is another name for "tokenization".) *)
@@ -130,14 +130,17 @@ fun lexical_error msg = raise Fail ("Lexical error: " ^ msg)
 
 fun consume_string_literal (cs: char list): string * char list =
     let
-        fun loop (acc, #"\""::rest) = (String.implode acc, rest)
-          | loop (acc, c1::rest) = loop (acc @ [c1], rest)
-          | loop (_, []) = lexical_error "consume_string_literal: no ending double quotes found"
+        fun loop (acc, #"\""::rest) = (String.implode (List.rev acc), rest)
+          | loop (acc, c1::rest) = loop (c1::acc, rest)
+          | loop (_, []) = lexical_error ("consume_string_literal: "
+                                          ^ "no ending double quotes found")
     in
         case cs of
              [] => ("", [])
            | #"\""::rest => loop ([], rest)
-           | s::_ => lexical_error ("consume_string_literal: first char is " ^ Char.toString s ^ " expected '\"'")
+           | s::_ => lexical_error ("consume_string_literal: first char is '"
+                                    ^ Char.toString s
+                                    ^ "' but expected a '\"'")
     end
 
 
@@ -177,14 +180,16 @@ fun consume_keyword (cs: char list): token * char list =
             ("false", FalseTok),
             ("null", NullTok)
         ]
-        fun loop (acc, []) = (assoc (String.implode acc, lookup_table), [])
-          | loop (acc, c::rest) = if Char.isAlpha c
-                                  then loop (acc @ [c], rest)
-                                  else (assoc (String.implode acc, lookup_table), c::rest)
+        fun loop (acc, []) = (assoc (String.implode (List.rev acc), lookup_table), [])
+          | loop (acc, c::rest) =
+            if Char.isAlpha c
+            then loop (c::acc, rest)
+            else (assoc (String.implode (List.rev acc), lookup_table), c::rest)
     in
         case loop ([], cs) of
              (SOME v, r) => (v, r)
-           | (NONE, _) => lexical_error "consume_keyword: no keyword found"
+           | (NONE, _) => lexical_error ("consume_keyword: expected to find a keyword "
+                                         ^ "('true', 'false', 'null') but found NONE")
     end
 
 
@@ -238,56 +243,56 @@ fun consume_keyword (cs: char list): token * char list =
    optional leading minus sign, or the fractional part, and so on.
 *)
 fun consume_num (cs : char list) : (string * char list) =
-  let
-    (* Consume an optional minus sign. We support "-" or "~" for
-       compatibility with SML's Real.toString. *)
-    fun consume_minus (#"-" :: cs) = ([#"-"], cs)
-      | consume_minus (#"~" :: cs) = ([#"~"], cs)
-      | consume_minus cs = ([], cs)
+    let
+        (* Consume an optional minus sign. We support "-" or "~" for
+           compatibility with SML's Real.toString. *)
+        fun consume_minus (#"-" :: cs) = ([#"-"], cs)
+          | consume_minus (#"~" :: cs) = ([#"~"], cs)
+          | consume_minus cs = ([], cs)
 
-    fun consume_exp_sign (#"-" :: cs) = ([#"-"], cs)
-      | consume_exp_sign (#"+" :: cs) = ([#"+"], cs)
-      | consume_exp_sign cs = ([], cs)
+        fun consume_exp_sign (#"-" :: cs) = ([#"-"], cs)
+          | consume_exp_sign (#"+" :: cs) = ([#"+"], cs)
+          | consume_exp_sign cs = ([], cs)
 
-    (* Consume a possibly empty list of digits. *)
-    fun consume_digit_list cs =
-      let
-        fun loop acc [] = (List.rev acc, [])
-          | loop acc (c :: cs) =
-            if Char.isDigit c
-            then loop (c :: acc) cs
-            else (List.rev acc, c :: cs)
-      in
-        loop [] cs
-      end
+        (* Consume a possibly empty list of digits. *)
+        fun consume_digit_list cs =
+            let
+                fun loop acc [] = (List.rev acc, [])
+                  | loop acc (c :: cs) =
+                    if Char.isDigit c
+                    then loop (c :: acc) cs
+                    else (List.rev acc, c :: cs)
+            in
+                loop [] cs
+            end
 
-    fun consume_frac (#"." :: cs) =
-      let
-        val (l, cs) = consume_digit_list cs
-      in
-        (#"." :: l, cs)
-      end
-      | consume_frac cs = ([], cs)
+        fun consume_frac (#"." :: cs) =
+            let
+                val (l, cs) = consume_digit_list cs
+            in
+                (#"." :: l, cs)
+            end
+          | consume_frac cs = ([], cs)
 
-    fun consume_exp (c :: cs) =
-      if c = #"e" orelse c = #"E"
-      then
-        let
-          val (sign, cs) = consume_exp_sign cs
-          val (l, cs) = consume_digit_list cs
-        in
-          (c :: sign @ l, cs)
-        end
-      else ([], c :: cs)
-      | consume_exp [] = ([], [])
+        fun consume_exp (c :: cs) =
+            if c = #"e" orelse c = #"E"
+            then
+                let
+                    val (sign, cs) = consume_exp_sign cs
+                    val (l, cs) = consume_digit_list cs
+                in
+                    (c :: sign @ l, cs)
+                end
+            else ([], c :: cs)
+          | consume_exp [] = ([], [])
 
-    val (minus, cs) = consume_minus cs
-    val (int,   cs) = consume_digit_list cs
-    val (frac,  cs) = consume_frac cs
-    val (exp,   cs) = consume_exp cs
-  in
-    (String.implode (minus @ int @ frac @ exp), cs)
-  end
+        val (minus, cs) = consume_minus cs
+        val (int,   cs) = consume_digit_list cs
+        val (frac,  cs) = consume_frac cs
+        val (exp,   cs) = consume_exp cs
+    in
+        (String.implode (minus @ int @ frac @ exp), cs)
+    end
 
 
 (* We now have all the consumers we need to write the main tokenizer loop. *)
@@ -322,9 +327,9 @@ fun tokenize_char_list (cs : char list) : token list =
          if Char.isDigit c orelse c = #"-" orelse c = #"~"
          then
              let
-                 val (s, cs) = consume_num (c :: cs)
+                 val (s, cs) = consume_num (c::cs)
              in
-                 NumLit s :: tokenize_char_list cs
+                 NumLit s::tokenize_char_list cs
              end
          else
              if c = #"\""
@@ -332,16 +337,17 @@ fun tokenize_char_list (cs : char list) : token list =
                  let
                      val (c, cs) = consume_string_literal (c::cs)
                  in
-                     StringLit c :: tokenize_char_list cs
+                     StringLit c::tokenize_char_list cs
                  end
-             else if c <> #"\""
-             then
-                 let
-                     val (t, cs) = consume_keyword (c::cs)
-                 in
-                     t :: tokenize_char_list cs
-                 end
-         else lexical_error ("Unknown character '" ^ Char.toString c ^ "'")
+             else
+                 if Char.isAlpha c
+                 then
+                     let
+                         val (t, cs) = consume_keyword (c::cs)
+                     in
+                         t :: tokenize_char_list cs
+                     end
+                 else lexical_error ("Unknown character '" ^ Char.toString c ^ "'")
 
 
 (* Challenge Problem C4: Write the top level tokenizer that takes a string,
@@ -374,14 +380,14 @@ fun tokenize (s : string) : token list =
    helps when debugging to know where in the token list the error
    occurred. *)
 fun syntax_error (ts : token list, msg : string) =
-  let
-    val tokenName =
-      case ts of
-         [] => "EOF"
-       | t :: _ => token_to_string t
-  in
-    raise Fail ("Syntax error at '" ^ tokenName ^ "': " ^ msg)
-  end
+    let
+        val token_name =
+            case ts of
+                 [] => "EOF"
+               | t :: _ => token_to_string t
+    in
+        raise Fail ("Syntax error at '" ^ token_name ^ "': " ^ msg)
+    end
 
 
 (* Challenge Problem C5: write a `parse_string` function that consumes a string
@@ -408,10 +414,11 @@ fun parse_string (ts : token list) : string * token list =
    appropriate message. *)
 fun expect (t : token, ts : token list) : token list =
     let
-        fun loop (_, []) = syntax_error (ts, "Token not found: " ^ token_to_string t)
+        fun loop (_, []) = syntax_error (ts, "Token not found: '"
+                                             ^ token_to_string t ^ "'")
           | loop (acc, t1::rest) = if t = t1
-                                   then acc @ rest
-                                   else loop (acc @ [t1], rest)
+                                   then List.rev acc @ rest
+                                   else loop (t1::acc, rest)
     in
         loop ([], ts)
     end
@@ -434,7 +441,7 @@ fun expect (t : token, ts : token list) : token list =
    back to the helper functions later to complete the function.
 *)
 
-fun parse_json (ts : token list) : json * token list =
+fun parse_json (ts: token list): json * token list =
     let
         (* Challenge Problem C7: write a `parse_field_value` function that parses one
         field-value pair in an object.
@@ -445,7 +452,7 @@ fun parse_json (ts : token list) : json * token list =
 
         Hint: use `parse_string` for the field name, `expect` for the
         colon, and a recursive call to `parse_json` for the value. *)
-        fun parse_field_value (ts : token list) : (string * json) * token list =
+        fun parse_field_value (ts: token list): (string * json) * token list =
             let
                 val (s, ts) = parse_string ts
                 val ts = expect (Colon, ts)
@@ -471,15 +478,15 @@ fun parse_json (ts : token list) : json * token list =
             cons the new field-value pair on the front. If it is not a comma,
             immediately return a singleton list.
          *)
-        fun parse_field_value_list (ts : token list) : (string * json) list * token list =
+        fun parse_field_value_list (ts: token list): (string * json) list * token list =
             case ts of
-                 RBrace :: rts => ([], rts)
+                 RBrace::rts => ([], rts)
                | _ => case parse_field_value ts of
-                           ((s, js), Comma :: ts1) =>
+                           ((s, js), Comma::ts1) =>
                            (case parse_field_value_list ts1 of
                                  ([], _) => syntax_error (ts1, "Trailing 'Comma'")
                                | (jsl, ts2) => ((s, js)::jsl, ts2))
-                         | ((s, js), RBrace :: ts3) => ([(s, js)], ts3)
+                         | ((s, js), RBrace::ts3) => ([(s, js)], ts3)
                          | (js, ts4) => syntax_error (ts4, "Invalid token")
 
 
@@ -493,15 +500,15 @@ fun parse_json (ts : token list) : json * token list =
          curly braces.
           *)
 
-        fun parse_array_element_list (ts : token list) : json list * token list =
+        fun parse_array_element_list (ts: token list): json list * token list =
             case ts of
-                 RBracket :: rts => ([], rts)
+                 RBracket::rts => ([], rts)
                | _ => case parse_json ts of
-                           (js, Comma :: ts1) =>
+                           (js, Comma::ts1) =>
                            (case parse_array_element_list ts1 of
                                  ([], _) => syntax_error (ts1, "Trailing Comma")
                                | (jsl, ts2) => (js::jsl, ts2))
-                         | (js, RBracket :: ts3) => ([js], ts3)
+                         | (js, RBracket::ts3) => ([js], ts3)
                          | (js, ts4) => syntax_error (ts4, "Invalid token")
 
     in
@@ -514,43 +521,62 @@ fun parse_json (ts : token list) : json * token list =
         Hint: Very little new code needs to be written in each branch.
         Call the helper functions above as appropriate.
          *)
-         case ts of
-              NumLit s :: ts =>
-                  let
-                      val SOME r = Real.fromString s
-                  in
-                      (Num r, ts)
-                  end
-            | StringLit s :: ts => (String s, ts)
-            | FalseTok :: ts => (False, ts)
-            | TrueTok :: ts => (True, ts)
-            | NullTok :: ts => (Null, ts)
-            (* Start of a JSON array *)
-            | LBracket :: ts =>
-                  let
-                      val (js, ts) = parse_array_element_list ts
-                  in
-                      (Array js, ts)
-                  end
-            (* Start of a JSON object *)
-            | LBrace :: ts =>
-                  let
-                      val (js, ts) = parse_field_value_list ts
-                  in
-                      (Object js, ts)
-                  end
-            | _ => syntax_error (ts, "expecting json")
+        case ts of
+             NumLit s::ts =>
+             let
+                 val SOME r = Real.fromString s
+             in
+                 (Num r, ts)
+             end
+           | StringLit s::ts => (String s, ts)
+           | FalseTok::ts => (False, ts)
+           | TrueTok::ts => (True, ts)
+           | NullTok::ts => (Null, ts)
+           (* Start of a JSON array *)
+           | LBracket::ts =>
+             let
+                 val (js, ts) = parse_array_element_list ts
+             in
+                 (Array js, ts)
+             end
+           (* Start of a JSON object *)
+           | LBrace::ts =>
+             let
+                 val (js, ts) = parse_field_value_list ts
+             in
+                 (Object js, ts)
+             end
+           | _ => syntax_error (ts, "expected a 'json' datatype")
+    end
 
+
+(* Helper functions to read and write from and to a file respectively. *)
+fun read_from_file filename =
+    let
+        val fd = TextIO.openIn filename
+        val content = TextIO.inputAll fd handle e => (TextIO.closeIn fd; raise e)
+        val _ = TextIO.closeIn fd
+    in
+        content
+    end
+
+
+fun write_to_file filename content =
+    let
+        val fd = TextIO.openOut filename
+        val _ = TextIO.output (fd, content) handle e => (TextIO.closeOut fd; raise e)
+        val _ = TextIO.closeOut fd
+    in
+        ()
     end
 
 (* Here is a freebie function to parse a .json file. Give it a
    file name (eg, "small_police.json") *)
 fun parse_from_file (file_name : string) : json =
     let
-        val file = TextIO.openIn file_name
-        val input = TextIO.inputAll file
+        val content = read_from_file file_name
     in
-        case parse_json (tokenize input) of
+        case parse_json (tokenize content) of
              (j, []) => j
            | (_, ts) => raise Fail ("Failed to parse the remaining tokens")
     end

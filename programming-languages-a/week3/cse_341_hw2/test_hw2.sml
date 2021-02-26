@@ -134,39 +134,53 @@ val test18a = real_to_string_for_json 4.305 = "4.305"
 val test18b = real_to_string_for_json ~4.305 = "-4.305"
 
 val test19 = json_to_string json_obj =
-             "{\"foo\" : 3.14159, \"bar\" : [1.0, \"world\", null], \"ok\" : true}"
+             "{\"foo\" : 3.14159, \"bar\" : [1.0, \"world\", null], \"ok\" : true}";
 
 (* End of tests for required problems. A few commented-out tests for
    challenge problems follow.  The tests below are in a different style
    where we use pattern-matching in val-bindings for the expected output. *)
 
-(*
+use "challenge_hw2.sml";
+
 (* Tests for consume_string_literal *)
-val ("foo",[#" ",#":",#" ",#"t",#"r",#"u",#"e"]) =
-  consume_string_literal (String.explode "\"foo\" : true")
+val test20a = consume_string_literal (String.explode "\"foo\" : true") =
+    ("foo",[#" ",#":",#" ",#"t",#"r",#"u",#"e"])
+val test20b = (consume_string_literal (String.explode "hello"); false)
+                handle Fail _ => true
+val test20c = (consume_string_literal (String.explode "\"hello"); false)
+                handle Fail _ => true
+
+
 
 (* Tests for consume_keyword *)
-val (FalseTok, [#" ",#"f",#"o",#"o"]) =
+val test21a = (FalseTok, [#" ",#"f",#"o",#"o"]) =
   consume_keyword (String.explode "false foo")
+val test21b = (consume_keyword (String.explode "foofalse foo"); false)
+                handle Fail _ => true
+
 
 (* Tests consume_number *)
-val ("1",[]) = consume_num (String.explode "1")
-val ("~1.23e17",[]) = consume_num (String.explode "~1.23e17")
+val test22a = ("1",[]) = consume_num (String.explode "1")
+val test22b = ("~1.23e17",[]) = consume_num (String.explode "~1.23e17")
 
 (* Tests for tokenize_char_list. You'll want more. *)
-val [LBrace, StringLit "foo", Colon, NumLit "3.14", Comma,
+val test23a = [LBrace, StringLit "foo", Colon, NumLit "3.14", Comma,
      StringLit "bar", Colon, LBracket, TrueTok, Comma,
      FalseTok, RBracket, RBrace] =
   tokenize_char_list (String.explode "{ \"foo\" : 3.14, \"bar\" : [true, false] }")
 
+
 (* Tests for parse_string *)
-val ("foo", [FalseTok]) =
+val test24a = ("foo", [FalseTok]) =
   parse_string ([StringLit "foo", FalseTok])
+val test24b = (parse_string [FalseTok, TrueTok]; false) handle Fail _ => true
+
 
 (* Tests for expect *)
-val [FalseTok] = expect (Colon, [Colon, FalseTok])
+val test25a = [FalseTok] = expect (Colon, [Colon, FalseTok])
+val test25b = (expect (Colon, []); false) handle Fail _ => true
+
 
 (* Tests for parse_json. You'll probably want way more. *)
-val (Object [("foo", Null),("bar",Array [True,False])],[]) =
+val test26a = (Object [("foo", Null),("bar",Array [True,False])],[]) =
   parse_json (tokenize "{ \"foo\" : null, \"bar\" : [true, false] }")
-*)

@@ -291,7 +291,7 @@ fun json_to_string js =
 
         fun object_to_string_list [] = []
           | object_to_string_list ((field,value)::rest) =
-          quote_string field ^ " : " ^ json_to_string value::object_to_string_list rest
+          quote_string field ^ ":" ^ json_to_string value::object_to_string_list rest
     in
         case js of
              Num n => real_to_string_for_json n
@@ -299,8 +299,8 @@ fun json_to_string js =
            | False => "false"
            | True => "true"
            | Null => "null"
-           | Array arr => "[" ^ concat_with (", ", array_to_string_list arr) ^ "]"
-           | Object obj => "{" ^ concat_with (", ", object_to_string_list obj) ^ "}"
+           | Array arr => "[" ^ concat_with (",", array_to_string_list arr) ^ "]"
+           | Object obj => "{" ^ concat_with (",", object_to_string_list obj) ^ "}"
     end
 
 (* Problem 19: Alternate version using features from the next week's lecture:
