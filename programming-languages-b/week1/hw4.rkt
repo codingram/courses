@@ -35,6 +35,8 @@
 ;; Problem 4:
 ;; Returns a list of the first n values produced by the stream s in order.
 ;; Assumption: n is non-negative
+;; NOTE: If using a tail-recursive function, use 'cons' and 'reverse' instead
+;; of 'append' as append will be extremely expensive.
 
 (define (stream-for-n-steps stream n)
   (if (= n 0)
@@ -91,18 +93,17 @@
 ;; Problem 9:
 ;; Returns #f if no vector element is a pair with a car field equal to v, else
 ;; return the first pair with an equal car field
+;; NOTE: vector-length takes constant time
+;; https://docs.racket-lang.org/reference/vectors.html?q=vector#%28def._%28%28quote._~23~25kernel%29._vector-length%29%29
 
 (define (vector-assoc v vec)
-  ; Vector length is constant, so define it outside the loop to avoid computing
-  ; it again for each iteration.
-  (letrec ([vlen (vector-length vec)]
-           [loop (lambda (pos)
-                   (if (= pos vlen)
+  (letrec ([loop (lambda (pos)
+                   (if (= pos (vector-length vec))
                        #f
                        (let ([elem (vector-ref vec pos)])
                          (if (and (pair? elem) (equal? v (car elem)))
-                           elem
-                           (loop (+ pos 1))))))])
+                             elem
+                             (loop (+ pos 1))))))])
     (loop 0)))
 
 
@@ -156,12 +157,12 @@
 (define-syntax while-less
   (syntax-rules (do)
     [(while-less e1 do e2)
-     (let ([v1 e1])
-       (letrec ([loop (lambda ()
-                        (if (< e2 v1)
+     (letrec ([v1 e1]
+              [loop (lambda ()
+                      (if (< e2 v1)
                         (loop)
                         #t))])
-         (loop)))]))
+       (loop))]))
 
 
 ;; ------------------ CSE 341 problems --------------------
