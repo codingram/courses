@@ -5,12 +5,14 @@
 ## Programming Languages, Part B
 > [Course Link](https://www.coursera.org/learn/programming-languages-part-b) | [Directory](./programming-languages-b/)
   - Week 1 - [Directory](./programming-languages-b/week1/)
+  - Week 2 - [Directory](./programming-languages-b/week2/)
 
 ## Programming Languages, Part A
 > [Course Link](https://www.coursera.org/learn/programming-languages) | [Directory](./programming-languages-a/)
   - Week 1 - [Directory](./programming-languages-a/week1/)
   - Week 2 - [Directory](./programming-languages-a/week2/)
   - Week 3 - [Directory](./programming-languages-a/week3/)
+    - Challenge problem - [JSON Parser](./programming-languages-a/week3/cse_341_hw2/challenge_hw2.sml)
   - Week 4 - [Directory](./programming-languages-a/week4/)
   - Week 5 - [Directory](./programming-languages-a/week5/)
 
