@@ -5,7 +5,7 @@ echo -e "\nExercise: 1"
 curl -Is https://missing.csail.mit.edu | # I is used to get just the headers
 grep -i last-modified |                  # Ignore case (i) and get the 'last-modified' field
 cut -d : -f2 |                           # Use delimiter ':' and get the second field
-tee last-modified.txt                    # Write it to stdout and in a file 
+tee last-modified.txt                    # Write it to stdout and in a file
 
 
 echo -e "\nExercise: 2.1"
@@ -56,7 +56,7 @@ echo -e "\nExercise: 4.2"
 grep -E "(.*a){3,}.*" /usr/share/dict/words | # Extracting all the words which contains atleast 3 a's
 grep -Ev "'s$" |                              # Removing the 's if there are any
 tr "[:upper:]" "[:lower:]" |                  # Translating uppercase to lowercase
-sed -E "s/.*(..)$/\1/" |                      # Substituting the word with the last two characters 
+sed -E "s/.*(..)$/\1/" |                      # Substituting the word with the last two characters
 # grep -o "..$" |                             # Get the output as the last two characters
 sort |                                        # Sort it (Need to do it for uniq)
 uniq -c |                                     # Get all the unique character combination and its count
@@ -79,17 +79,17 @@ pup "div#table-data-container table tbody td.group1, td.group2 text{}" | # Extra
 # grep -Ev "^$" |                     # Remove all the blank lines
 # sed 's/,//g' |                      # Remove all the commas from the data
 pr -2 -t |                          # Print format with two columns, remove the headers and footers
-tr -ds ',\t' ' \n' |                # First delete all the commas and tabs, squeeze mutltiple spaces and newline 
+tr -ds ',\t' ' \n' |                # First delete all the commas and tabs, squeeze mutltiple spaces and newline
 # tr -d '\t' |                        # Remove all the tabs
 # As awk is a programming language, we can do more things with it:
 # BEGIN matches only the start of the pattern, here it assigns 0 to variable tot
 # Then for each line it subtracts second data from first and checks if it's not equal to 0
-# Why? Well, for tr we removed all unnecessary newlines but we couldn't remove the first one 
+# Why? Well, for tr we removed all unnecessary newlines but we couldn't remove the first one
 # so that evaluates to 0. Here it won't make a difference but better safe than sorry
 # If it's not 0 then add it to tot and once all lines are over END matches the last line
 # and prints the value of tot.
-awk 'BEGIN { tot = 0 } 
-     { $1 = $1 - $2 } $1 != 0 { tot += $1 } 
+awk 'BEGIN { tot = 0 }
+     { $1 = $1 - $2 } $1 != 0 { tot += $1 }
      END { print tot }'
 # awk '{$1 = $1 - $2} $1 != 0 {print $1}' | # Subtract the two data, assign it to first column and get that column if it's not 0
 # paste -sd+ - |                      # Concatenate all lines into a single line seperated by +
@@ -112,5 +112,3 @@ xargs -I{} git --git-dir=gitrepo/.git --work-tree=./gitrepo show -s --format=%B 
 echo -e "\nExercise 7.1"
 log show --last 1d --predicate "process CONTAINS[c] 'sudo' && message CONTAINS[c] 'dhruvmanilawala'" |
 grep -Eio "command=.*"
-
-

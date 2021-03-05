@@ -186,13 +186,186 @@
 
 ;; We will test this function directly, so it must do
 ;; as described in the assignment
-(define (compute-free-vars e) "CHANGE")
+(define (compute-free-vars e)
+  (struct res (e fvs)) ; result type of f (could also use a pair)
+  (define (f e)
+    (cond [(var? e)
+           (res e (set (var-string e)))]
+          [(int? e)
+           (res e (set))]
+          [(add? e)
+           (let ([r1 (f (add-e1 e))]
+                 [r2 (f (add-e2 e))])
+             (res (add (res-e r1) (res-e r2))
+                  (set-union (res-fvs r1) (res-fvs r2))))]
+          [(ifgreater? e)
+           (let ([r1 (f (ifgreater-e1 e))]
+                 [r2 (f (ifgreater-e2 e))]
+                 [r3 (f (ifgreater-e3 e))]
+                 [r4 (f (ifgreater-e4 e))])
+             (res (ifgreater (res-e r1) (res-e r2) (res-e r3)    (res-e r4))
+                  (set-union (res-fvs r1) (res-fvs r2) (res-fvs   r3) (res-fvs r4))))]
+          [(fun? e)
+           (let* ([r (f (fun-body e))]
+                  [fvs (set-remove (res-fvs r) (fun-formal e))]
+                  [fvs (if (fun-nameopt e)
+                         (set-remove fvs (fun-nameopt e))
+                         fvs)])
+             (res (fun-challenge (fun-nameopt e) (fun-formal e)
+                                 (res-e r) fvs)
+                  fvs))]
+          [(call? e)
+           (let ([r1 (f (call-funexp e))]
+                 [r2 (f (call-actual e))])
+             (res (call (res-e r1) (res-e r2))
+                  (set-union (res-fvs r1) (res-fvs r2))))]
+          [(mlet? e)
+           (let* ([r1 (f (mlet-e e))]
+                  [r2 (f (mlet-body e))])
+             (res (mlet (mlet-var e) (res-e r1) (res-e r2))
+                  (set-union (res-fvs r1) (set-remove (res-fvs r2)   (mlet-var e)))))]
+          [(apair? e)
+           (let ([r1 (f (apair-e1 e))]
+                 [r2 (f (apair-e2 e))])
+             (res (apair (res-e r1) (res-e r2))
+                  (set-union (res-fvs r1) (res-fvs r2))))]
+          [(fst? e)
+           (let ([r (f (fst-e e))])
+             (res (fst (res-e r))
+                  (res-fvs r)))]
+          [(snd? e)
+           (let ([r (f (snd-e e))])
+             (res (snd (res-e r))
+                  (res-fvs r)))]
+          [(aunit? e)
+           (res e (set))]
+          [(isaunit? e)
+           (let ([r (f (isaunit-e e))])
+             (res (isaunit (res-e r))
+                  (res-fvs r)))]))
+  (res-e (f e)))
 
-;; Do NOT share code with eval-under-env because that will make
-;; auto-grading and peer assessment more difficult, so
-;; copy most of your interpreter here and make minor changes
-(define (eval-under-env-c e env) "CHANGE")
 
-;; Do NOT change this
+(define (eval-under-env-c e env)
+  (cond
+        [(fun-challenge? e)
+         (closure (set-map (fun-challenge-freevars e)
+                           (lambda (s) (cons s (envlookup env s))))
+                  e)]
+         ; call case uses fun-challenge as appropriate
+         ; all other cases the same
+        ...))
+
+
 (define (eval-exp-c e)
   (eval-under-env-c (compute-free-vars e) null))
+
+
+
+;; Visitor pattern
+;; ---------------
+
+
+(define (node-visitor node env)
+  (letrec
+    ([visit-int
+       (lambda (node)
+         node)]
+
+     [visit-var
+       (lambda (node)
+         (envlookup env (var-string node)))]
+
+     [visit-fun
+       (lambda (node)
+         (closure env node))]
+
+     [visit-closure
+       (lambda (node)
+         node)]
+
+     [visit-aunit
+       (lambda (node)
+         node)]
+
+     [visit-isaunit
+       (lambda (node)
+         (if (aunit? (node-visitor (isaunit-e node) env))
+           (int 1)
+           (int 0)))]
+
+     [visit-apair
+       (lambda (node)
+         (apair (node-visitor (apair-e1 node) env)
+                (node-visitor (apair-e2 node) env)))]
+
+     [visit-fst
+       (lambda (node)
+         (let ([val (node-visitor (fst-e node) env)])
+           (if (apair? val)
+             (apair-e1 val)
+             (error "ValueError: MUPL fst applied to non-apair: " node))))]
+
+     [visit-snd
+       (lambda (node)
+         (let ([val (node-visitor (snd-e node) env)])
+           (if (apair? val)
+               (apair-e2 val)
+               (error "ValueError: MUPL snd applied to non-apair: " node))))]
+
+     [visit-add
+       (lambda (node)
+         (let ([val1 (node-visitor (add-e1 node) env)]
+               [val2 (node-visitor (add-e2 node) env)])
+           (if (and (int? val1) (int? val2))
+               (int (+ (int-num val1) (int-num val2)))
+               (error "ValueError: MUPL addition applied to non-number: " node))))]
+
+
+     [visit-ifgreater
+       (lambda (node)
+         (let ([val1 (node-visitor (ifgreater-e1 node) env)]
+               [val2 (node-visitor (ifgreater-e2 node) env)])
+           (if (and (int? val1) (int? val2))
+               (if (> (int-num val1) (int-num val2))
+                   (node-visitor (ifgreater-e3 node) env)
+                   (node-visitor (ifgreater-e4 node) env))
+               (error "ValueError: MUPL ifgreater applied to non-number: " node))))]
+
+     [visit-mlet
+       (lambda (node)
+         (node-visitor
+           (mlet-body node)
+           (cons (cons (mlet-var node)
+                       (node-visitor (mlet-e node) env))
+                 env)))]
+
+     [visit-call
+       (lambda (node)
+         (let ([val1 (node-visitor (call-funexp node) env)]
+               [arg-val (node-visitor (call-actual node) env)])
+           (if (closure? val1)
+               (let* ([function (closure-fun val1)]
+                      [arg-name (fun-formal function)]
+                      [fun-name (fun-nameopt function)]
+                      [ext-env (cons (cons arg-name arg-val) (closure-env val1))])
+                 (node-visitor (fun-body function)
+                                 (if fun-name
+                                     (cons (cons fun-name val1) ext-env)
+                                      ext-env)))
+               (error "ValueError: Invalid function call: " node))))])
+
+    (cond [(int? node) (visit-int node)]
+          [(var? node) (visit-var node)]
+          [(fun? node) (visit-fun node)]
+          [(closure? node) (visit-closure node)]
+          [(aunit? node) (visit-aunit node)]
+          [(isaunit? node) (visit-isaunit node)]
+          [(apair? node) (visit-apair node)]
+          [(fst? node) (visit-fst node)]
+          [(snd? node) (visit-snd node)]
+          [(add? node) (visit-add node)]
+          [(ifgreater? node) (visit-ifgreater node)]
+          [(mlet? node) (visit-mlet node)]
+          [(call? node) (visit-call node)]
+          [else (error (format "SyntaxError: bad MUPL expression: ~v" node))])))
