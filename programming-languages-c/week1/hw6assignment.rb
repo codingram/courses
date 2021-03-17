@@ -12,19 +12,7 @@ class MyPiece < Piece
 
   # Class array holding all the pieces and their rotations including the extra
   # three pieces.
-  All_My_Pieces = [
-    [
-      [[0, 0], [1, 0], [0, 1], [1, 1]] # square (only needs one)
-    ],
-    rotations([[0, 0], [-1, 0], [1, 0], [0, -1]]), # T
-    [
-      [[0, 0], [-1, 0], [1, 0], [2, 0]], # long (only needs two)
-      [[0, 0], [0, -1], [0, 1], [0, 2]]
-    ],
-    rotations([[0, 0], [0, -1], [0, 1], [1, 1]]), # L
-    rotations([[0, 0], [0, -1], [0, 1], [-1, 1]]), # inverted L
-    rotations([[0, 0], [-1, 0], [0, -1], [1, -1]]), # S
-    rotations([[0, 0], [1, 0], [0, -1], [-1, -1]]), # Z
+  All_My_Pieces = All_Pieces + [
     [
       [[0, 0], [-1, 0], [1, 0], [-2, 0], [2, 0]], # extra long (only needs two)
       [[0, 0], [0, -1], [0, 1], [0, -2], [0, 2]]
@@ -49,7 +37,7 @@ class MyBoard < Board
   end
 
   def cheat
-    if @score > 100 && !@cheating
+    if @score >= 100 && !@cheating
       @score -= 100
       @cheating = true
     end
@@ -57,11 +45,11 @@ class MyBoard < Board
 
   # Gets the next piece
   def next_piece
-    if !@cheating
-      @current_block = MyPiece.next_piece(self)
-    else
+    if @cheating
       @current_block = MyPiece.new([[[0, 0]]], self)
       @cheating = false
+    else
+      @current_block = MyPiece.next_piece(self)
     end
     @current_pos = nil
   end
